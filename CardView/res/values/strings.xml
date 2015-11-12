@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<resources>
+    
+    <item type="id" name="item_view_left"></item>
+    <item type="id" name="item_view_right"></item>
+    <item type="id" name="item_view_delete"></item>
+
+    <string name="app_name">Card View</string>
+
+    <string name="deck_view_empty_message">Nothing here</string>
+
+    <!-- Content description to tell the user that this button will remove an application from recents -->
+    <string name="accessibility_item_will_be_dismissed">Dismiss </string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+</resources>
