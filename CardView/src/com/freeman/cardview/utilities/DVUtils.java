@@ -194,6 +194,19 @@ public class DVUtils {
             animator.cancel();
         }
     }
+    
+    public static boolean isAboveLollipop(){
+    	boolean isDebug = true;
+    	if(isDebug){
+    		return false;
+    	}
+    	
+    	if(android.os.Build.VERSION.SDK_INT >= 21){
+    		return true;
+    	}else{
+    		return false;
+    	}
+    }
 
     public static Matrix IDENTITY_MATRIX = new Matrix() {
         void oops() {

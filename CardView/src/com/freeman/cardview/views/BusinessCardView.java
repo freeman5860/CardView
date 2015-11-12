@@ -328,15 +328,15 @@ public class BusinessCardView<T> extends FrameLayout implements /*TaskStack.Task
         if (DVConstants.DebugFlags.App.EnableTaskStackClipping) {
             int childCount = getChildCount();
             for (int i = 0; i < childCount - 1; i++) {
-                BusinessCardChildView tv = (BusinessCardChildView) getChildAt(i);
-                BusinessCardChildView nextTv = null;
-                BusinessCardChildView tmpTv = null;
+                BusinessCardChildView<?> tv = (BusinessCardChildView<?>) getChildAt(i);
+                BusinessCardChildView<?> nextTv = null;
+                BusinessCardChildView<?> tmpTv = null;
                 int clipBottom = 0;
                 if (tv.shouldClipViewInStack()) {
                     // Find the next view to clip against
                     int nextIndex = i;
                     while (nextIndex < getChildCount()) {
-                        tmpTv = (BusinessCardChildView) getChildAt(++nextIndex);
+                        tmpTv = (BusinessCardChildView<?>) getChildAt(++nextIndex);
                         if (tmpTv != null && tmpTv.shouldClipViewInStack()) {
                             nextTv = tmpTv;
                             break;
@@ -356,12 +356,20 @@ public class BusinessCardView<T> extends FrameLayout implements /*TaskStack.Task
                                 - nextTv.getPaddingTop() - 1);
                     }
                 }
-                tv.getViewBounds().setClipBottom(clipBottom);
+                
+                // clip only for sdk 21
+                if(DVUtils.isAboveLollipop()){
+                	tv.getViewBounds().setClipBottom(clipBottom);
+                }
             }
             if (getChildCount() > 0) {
                 // The front most task should never be clipped
-                BusinessCardChildView tv = (BusinessCardChildView) getChildAt(getChildCount() - 1);
-                tv.getViewBounds().setClipBottom(0);
+                BusinessCardChildView<?> tv = (BusinessCardChildView<?>) getChildAt(getChildCount() - 1);
+                
+                // clip only for sdk 21
+                if(DVUtils.isAboveLollipop()){
+                	tv.getViewBounds().setClipBottom(0);
+                }
             }
         }
         mStackViewsClipDirty = false;

@@ -18,11 +18,14 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.PathInterpolator;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.freeman.cardview.R;
 import com.freeman.cardview.helpers.BusinessCardChildViewTransform;
 import com.freeman.cardview.helpers.BusinessCardViewConfig;
 import com.freeman.cardview.helpers.FakeShadowDrawable;
+import com.freeman.cardview.helpers.PathInterpolatorDonut;
 import com.freeman.cardview.utilities.DVConstants;
 import com.freeman.cardview.utilities.DVUtils;
 
@@ -68,11 +71,11 @@ public class BusinessCardChildView<T> extends FrameLayout implements
     AnimateableDeckChildViewBounds mViewBounds;
 
     View mContent;
-    BusinessCardChildViewThumbnail mThumbnailView;
-    BusinessCardChildViewHeader mHeaderView;
+    ImageView mThumbnailView;
+    View mHeaderView;
     DeckChildViewCallbacks<T> mCb;
 
-    public static final Interpolator ALPHA_IN = new PathInterpolator(0.4f, 0f, 1f, 1f);
+    public static final Interpolator ALPHA_IN = new PathInterpolatorDonut(0.4f, 0f, 1f, 1f);
 
     // Optimizations
     ValueAnimator.AnimatorUpdateListener mUpdateDimListener =
@@ -96,14 +99,16 @@ public class BusinessCardChildView<T> extends FrameLayout implements
         super(context, attrs, defStyleAttr);
         mConfig = BusinessCardViewConfig.getInstance();
         mMaxDimScale = mConfig.taskStackMaxDim / 255f;
-        mClipViewInStack = true;
-        mViewBounds = new AnimateableDeckChildViewBounds(this, mConfig.taskViewRoundedCornerRadiusPx);
+        mClipViewInStack = true;        
         setTaskProgress(getTaskProgress());
         setDim(getDim());
         if (mConfig.fakeShadows) {
             setBackground(new FakeShadowDrawable(context.getResources(), mConfig));
         }
-        setOutlineProvider(mViewBounds);
+        if(DVUtils.isAboveLollipop()){
+        	mViewBounds = new AnimateableDeckChildViewBounds(this, mConfig.taskViewRoundedCornerRadiusPx);
+        	setOutlineProvider(mViewBounds);
+        }
     }
 
     /**
@@ -141,9 +146,8 @@ public class BusinessCardChildView<T> extends FrameLayout implements
     protected void onFinishInflate() {
         // Bind the views
         mContent = findViewById(R.id.task_view_content);
-        mHeaderView = (BusinessCardChildViewHeader) findViewById(R.id.task_view_bar);
-        mThumbnailView = (BusinessCardChildViewThumbnail) findViewById(R.id.task_view_thumbnail);
-        mThumbnailView.updateClipToTaskBar(mHeaderView);
+        mHeaderView = findViewById(R.id.task_view_bar);
+        mThumbnailView = (ImageView) findViewById(R.id.task_view_thumbnail);
     }
 
     @Override
@@ -167,7 +171,10 @@ public class BusinessCardChildView<T> extends FrameLayout implements
                 MeasureSpec.makeMeasureSpec(widthWithoutPadding, MeasureSpec.EXACTLY),
                 MeasureSpec.makeMeasureSpec(widthWithoutPadding, MeasureSpec.EXACTLY));
         setMeasuredDimension(width, height);
-        invalidateOutline();
+        
+        if(DVUtils.isAboveLollipop()){
+        	invalidateOutline();
+        }
     }
 
     /**
@@ -252,7 +259,7 @@ public class BusinessCardChildView<T> extends FrameLayout implements
         // Apply the current dim
         setDim(initialDim);
         // Prepare the thumbnail view alpha
-        mThumbnailView.prepareEnterRecentsAnimation(isTaskViewLaunchTargetTask);
+        //TODO mThumbnailView.prepareEnterRecentsAnimation(isTaskViewLaunchTargetTask);
     }
 
     /**
@@ -326,7 +333,7 @@ public class BusinessCardChildView<T> extends FrameLayout implements
                                   boolean occludesLaunchTarget, boolean lockToTask) {
         if (isLaunchingTask) {
             // Animate the thumbnail alpha back into full opacity for the window animation out
-            mThumbnailView.startLaunchTaskAnimation(postAnimRunnable);
+            //TODO mThumbnailView.startLaunchTaskAnimation(postAnimRunnable);
 
             // Animate the dim
             if (mDimAlpha > 0) {
@@ -337,7 +344,7 @@ public class BusinessCardChildView<T> extends FrameLayout implements
             }
         } else {
             // Hide the dismiss button
-            mHeaderView.startLaunchTaskDismissAnimation();
+            //TODO mHeaderView.startLaunchTaskDismissAnimation();
             // If this is another view in the task grouping and is in front of the launch task,
             // animate it away first
             if (occludesLaunchTarget) {
@@ -386,21 +393,21 @@ public class BusinessCardChildView<T> extends FrameLayout implements
      * Animates this task view if the user does not interact with the stack after a certain time.
      */
     void startNoUserInteractionAnimation() {
-        mHeaderView.startNoUserInteractionAnimation();
+        //mHeaderView.startNoUserInteractionAnimation();
     }
 
     /**
      * Mark this task view that the user does has not interacted with the stack after a certain time.
      */
     void setNoUserInteractionState() {
-        mHeaderView.setNoUserInteractionState();
+       // mHeaderView.setNoUserInteractionState();
     }
 
     /**
      * Resets the state tracking that the user has not interacted with the stack after a certain time.
      */
     void resetNoUserInteractionState() {
-        mHeaderView.resetNoUserInteractionState();
+       // mHeaderView.resetNoUserInteractionState();
     }
 
     /**
@@ -443,9 +450,12 @@ public class BusinessCardChildView<T> extends FrameLayout implements
      * Sets the current task progress.
      */
     public void setTaskProgress(float p) {
-        mTaskProgress = p;
-        mViewBounds.setAlpha(p);
+        mTaskProgress = p;        
         updateDimFromTaskProgress();
+        
+        if(DVUtils.isAboveLollipop()){
+        	mViewBounds.setAlpha(p);
+        }
     }
 
     /**
@@ -472,10 +482,10 @@ public class BusinessCardChildView<T> extends FrameLayout implements
         } else {
             float dimAlpha = mDimAlpha / 255.0f;
             if (mThumbnailView != null) {
-                mThumbnailView.setDimAlpha(dimAlpha);
+                //TODO mThumbnailView.setDimAlpha(dimAlpha);
             }
             if (mHeaderView != null) {
-                mHeaderView.setDimAlpha(dim);
+              //  mHeaderView.setDimAlpha(dim);
             }
         }
     }
@@ -530,10 +540,10 @@ public class BusinessCardChildView<T> extends FrameLayout implements
         mIsFocused = true;
         if (mFocusAnimationsEnabled) {
             // Focus the header bar
-            mHeaderView.onTaskViewFocusChanged(true, animateFocusedState);
+          //  mHeaderView.onTaskViewFocusChanged(true, animateFocusedState);
         }
         // Update the thumbnail alpha with the focus
-        mThumbnailView.onFocusChanged(true);
+        //TODO mThumbnailView.onFocusChanged(true);
         // Call the callback
         if (mCb != null) {
             mCb.onDeckChildViewFocusChanged(this, true);
@@ -554,11 +564,11 @@ public class BusinessCardChildView<T> extends FrameLayout implements
         mIsFocused = false;
         if (mFocusAnimationsEnabled) {
             // Un-focus the header bar
-            mHeaderView.onTaskViewFocusChanged(false, true);
+         //   mHeaderView.onTaskViewFocusChanged(false, true);
         }
 
         // Update the thumbnail alpha with the focus
-        mThumbnailView.onFocusChanged(false);
+        //TODO mThumbnailView.onFocusChanged(false);
         // Call the callback
         if (mCb != null) {
             mCb.onDeckChildViewFocusChanged(this, false);
@@ -592,7 +602,7 @@ public class BusinessCardChildView<T> extends FrameLayout implements
         mFocusAnimationsEnabled = true;
         if (mIsFocused && !wasFocusAnimationsEnabled) {
             // Re-notify the header if we were focused and animations were not previously enabled
-            mHeaderView.onTaskViewFocusChanged(true, true);
+          //  mHeaderView.onTaskViewFocusChanged(true, true);
         }
     }
 
@@ -618,7 +628,8 @@ public class BusinessCardChildView<T> extends FrameLayout implements
 
     public Bitmap getThumbnail() {
         if (mThumbnailView != null) {
-            return mThumbnailView.getThumbnail();
+           // return mThumbnailView.getThumbnail();
+        	return mThumbnailView.getDrawingCache();
         }
 
         return null;
@@ -631,14 +642,14 @@ public class BusinessCardChildView<T> extends FrameLayout implements
 
         if (mThumbnailView != null && mHeaderView != null) {
             // Bind each of the views to the new task data
-            mThumbnailView.rebindToTask(thumbnail);
-            mHeaderView.rebindToTask(headerIcon, headerTitle, headerBgColor);
+        	mThumbnailView.setImageBitmap(thumbnail);
+          //  mHeaderView.rebindToTask(headerIcon, headerTitle, headerBgColor);
             // Rebind any listeners
-            mHeaderView.mApplicationIcon.setOnClickListener(this);
-            mHeaderView.mDismissButton.setOnClickListener(this);
+          //  mHeaderView.mApplicationIcon.setOnClickListener(this);
+          //  mHeaderView.mDismissButton.setOnClickListener(this);
 
             // TODO: Check if this functionality is needed
-            mHeaderView.mApplicationIcon.setOnLongClickListener(this);
+         //   mHeaderView.mApplicationIcon.setOnLongClickListener(this);
         }
         mTaskDataLoaded = true;
     }
@@ -646,13 +657,13 @@ public class BusinessCardChildView<T> extends FrameLayout implements
     public void onDataUnloaded() {
         if (mThumbnailView != null && mHeaderView != null) {
             // Unbind each of the views from the task data and remove the task callback
-            mThumbnailView.unbindFromTask();
-            mHeaderView.unbindFromTask();
+            mThumbnailView.setImageBitmap(null);
+         //   mHeaderView.unbindFromTask();
             // Unbind any listeners
-            mHeaderView.mApplicationIcon.setOnClickListener(null);
-            mHeaderView.mDismissButton.setOnClickListener(null);
+         //   mHeaderView.mApplicationIcon.setOnClickListener(null);
+         //   mHeaderView.mDismissButton.setOnClickListener(null);
             if (DVConstants.DebugFlags.App.EnableDevAppInfoOnLongPress) {
-                mHeaderView.mApplicationIcon.setOnLongClickListener(null);
+         //       mHeaderView.mApplicationIcon.setOnLongClickListener(null);
             }
         }
         mTaskDataLoaded = false;
@@ -678,14 +689,14 @@ public class BusinessCardChildView<T> extends FrameLayout implements
             postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if (DVConstants.DebugFlags.App.EnableTaskFiltering
+                    /*if (DVConstants.DebugFlags.App.EnableTaskFiltering
                             && v == mHeaderView.mApplicationIcon) {
                         if (mCb != null) {
                             mCb.onDeckChildViewAppIconClicked(tv);
                         }
                     } else if (v == mHeaderView.mDismissButton) {
                         dismissTask();
-                    }
+                    }*/
                 }
             }, 125);
         } else {
@@ -701,12 +712,12 @@ public class BusinessCardChildView<T> extends FrameLayout implements
 
     @Override
     public boolean onLongClick(View v) {
-        if (v == mHeaderView.mApplicationIcon) {
+        /*if (v == mHeaderView.mApplicationIcon) {
             if (mCb != null) {
                 mCb.onDeckChildViewAppInfoClicked(this);
                 return true;
             }
-        }
+        }*/
         return false;
     }
 }

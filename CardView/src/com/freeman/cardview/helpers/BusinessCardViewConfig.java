@@ -16,6 +16,7 @@ import android.view.animation.Interpolator;
 
 import com.freeman.cardview.R;
 import com.freeman.cardview.utilities.DVConstants;
+import com.freeman.cardview.utilities.DVUtils;
 
 /**
  * Configuration helper
@@ -155,12 +156,18 @@ public class BusinessCardViewConfig {
         // here.
 
         // Interpolators
-        fastOutSlowInInterpolator = AnimationUtils.loadInterpolator(context,
+    	if(DVUtils.isAboveLollipop()){
+    		fastOutSlowInInterpolator = AnimationUtils.loadInterpolator(context,
                 R.interpolator.fast_out_slow_in);
-        fastOutLinearInInterpolator = AnimationUtils.loadInterpolator(context,
+    		fastOutLinearInInterpolator = AnimationUtils.loadInterpolator(context,
                 R.interpolator.fast_out_linear_in);
-        linearOutSlowInInterpolator = AnimationUtils.loadInterpolator(context,
+    		linearOutSlowInInterpolator = AnimationUtils.loadInterpolator(context,
                 R.interpolator.linear_out_slow_in);
+    	}else{
+    		fastOutSlowInInterpolator = new PathInterpolatorDonut(0.4f, 0f, 0.2f, 1f);
+        	fastOutLinearInInterpolator = new PathInterpolatorDonut(0.4f, 0f, 1f, 1f);
+        	linearOutSlowInInterpolator = new PathInterpolatorDonut(0f, 0f, 0.2f, 1f);
+    	}
         quintOutInterpolator = AnimationUtils.loadInterpolator(context,
                 R.interpolator.decelerate_quint);
     }

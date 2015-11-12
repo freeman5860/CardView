@@ -13,5 +13,10 @@
      limitations under the License.
 -->
 
-<ripple xmlns:android="http://schemas.android.com/apk/res/android"
-    android:color="#40ffffff"></ripple>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <corners
+        android:topLeftRadius="2dp"
+        android:topRightRadius="2dp" />
+    <solid android:color="#00000000" />
+</shape>

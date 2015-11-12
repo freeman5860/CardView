@@ -57,8 +57,8 @@ public class AnimateableDeckChildViewBounds extends ViewOutlineProvider {
             mSourceView.invalidateOutline();
             updateClipBounds();
             if (!mConfig.useHardwareLayers) {
-                mSourceView.mThumbnailView.updateThumbnailVisibility(
-                        bottom - mSourceView.getPaddingBottom());
+                //TODO mSourceView.mThumbnailView.updateThumbnailVisibility(
+                //       bottom - mSourceView.getPaddingBottom());
             }
         }
     }

@@ -1,5 +1,7 @@
 package com.freeman.cardview.helpers;
 
+import com.freeman.cardview.utilities.DVUtils;
+
 import android.animation.ValueAnimator;
 import android.graphics.Rect;
 import android.view.View;
@@ -82,8 +84,10 @@ public class BusinessCardChildViewTransform {
             if (hasTranslationYChangedFrom(v.getTranslationY())) {
                 anim.translationY(translationY);
             }
-            if (allowShadows && hasTranslationZChangedFrom(v.getTranslationZ())) {
-                anim.translationZ(translationZ);
+            if(DVUtils.isAboveLollipop()){
+	            if (allowShadows && hasTranslationZChangedFrom(v.getTranslationZ())) {
+	                anim.translationZ(translationZ);
+	            }
             }
             if (hasScaleChangedFrom(v.getScaleX())) {
                 anim.scaleX(scale)
@@ -112,8 +116,10 @@ public class BusinessCardChildViewTransform {
             if (hasTranslationYChangedFrom(v.getTranslationY())) {
                 v.setTranslationY(translationY);
             }
-            if (allowShadows && hasTranslationZChangedFrom(v.getTranslationZ())) {
-                v.setTranslationZ(translationZ);
+            if(DVUtils.isAboveLollipop()){
+            	if (allowShadows && hasTranslationZChangedFrom(v.getTranslationZ())) {
+                	v.setTranslationZ(translationZ);
+            	}
             }
             if (hasScaleChangedFrom(v.getScaleX())) {
                 v.setScaleX(scale);
@@ -131,7 +137,9 @@ public class BusinessCardChildViewTransform {
     public static void reset(View v) {
         v.setTranslationX(0f);
         v.setTranslationY(0f);
-        v.setTranslationZ(0f);
+        if(DVUtils.isAboveLollipop()){
+        	v.setTranslationZ(0f);
+        }        
         v.setScaleX(1f);
         v.setScaleY(1f);
         v.setAlpha(1f);

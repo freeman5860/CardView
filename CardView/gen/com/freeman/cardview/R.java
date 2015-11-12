@@ -90,15 +90,14 @@ public final class R {
         public static final int task_view_z_min=0x7f080007;
     }
     public static final class drawable {
-        public static final int deck_child_view_button_bg=0x7f020000;
-        public static final int deck_child_view_dismiss_dark=0x7f020001;
-        public static final int deck_child_view_dismiss_light=0x7f020002;
-        public static final int deck_child_view_header_bg=0x7f020003;
-        public static final int deck_child_view_header_bg_color=0x7f020004;
-        public static final int default_header_icon=0x7f020005;
-        public static final int default_thumbnail=0x7f020006;
-        public static final int ic_launcher=0x7f020007;
-        public static final int rounded_background_black=0x7f020008;
+        public static final int deck_child_view_dismiss_dark=0x7f020000;
+        public static final int deck_child_view_dismiss_light=0x7f020001;
+        public static final int deck_child_view_header_bg=0x7f020002;
+        public static final int deck_child_view_header_bg_color=0x7f020003;
+        public static final int default_header_icon=0x7f020004;
+        public static final int default_thumbnail=0x7f020005;
+        public static final int ic_launcher=0x7f020006;
+        public static final int rounded_background_black=0x7f020007;
     }
     public static final class id {
         public static final int activity_description=0x7f090008;
@@ -181,6 +180,7 @@ public final class R {
         public static final int activity_deck_view_sample=0x7f030000;
         public static final int deck_child_view=0x7f030001;
         public static final int deck_child_view_header=0x7f030002;
+        public static final int deck_child_view_header_new=0x7f030003;
     }
     public static final class string {
         /**  Content description to tell the user that this button will remove an application from recents 

@@ -99,9 +99,14 @@ public class BusinessCardChildViewThumbnail extends View {
             return;
         }
         // Draw the thumbnail with the rounded corners
-        canvas.drawRoundRect(0, 0, getWidth(), getHeight(),
-                mConfig.taskViewRoundedCornerRadiusPx,
-                mConfig.taskViewRoundedCornerRadiusPx, mDrawPaint);
+        if(DVUtils.isAboveLollipop()){
+        	//TODO 兼容性问题，去掉圆角
+            canvas.drawRoundRect(0, 0, getWidth(), getHeight(),
+                    mConfig.taskViewRoundedCornerRadiusPx,
+                    mConfig.taskViewRoundedCornerRadiusPx, mDrawPaint);
+        }else{
+        	canvas.drawRect(0, 0, getWidth(), getHeight(), mDrawPaint);
+        }        
     }
 
     /**

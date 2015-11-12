@@ -76,18 +76,25 @@ public class BusinessCardChildViewHeader extends FrameLayout {
         super(context, attrs, defStyleAttr);
         mConfig = BusinessCardViewConfig.getInstance();
         setWillNotDraw(false);
-        setClipToOutline(true);
-        setOutlineProvider(new ViewOutlineProvider() {
-            @Override
-            public void getOutline(View view, Outline outline) {
-                outline.setRect(0, 0, getMeasuredWidth(), getMeasuredHeight());
-            }
-        });
+        if(DVUtils.isAboveLollipop()){
+	        setClipToOutline(true);
+	        setOutlineProvider(new ViewOutlineProvider() {
+	            @Override
+	            public void getOutline(View view, Outline outline) {
+	                outline.setRect(0, 0, getMeasuredWidth(), getMeasuredHeight());
+	            }
+	        });
+        }
 
         // Load the dismiss resources
         Resources res = context.getResources();
-        mLightDismissDrawable = res.getDrawable(R.drawable.deck_child_view_dismiss_light);
-        mDarkDismissDrawable = res.getDrawable(R.drawable.deck_child_view_dismiss_dark);
+        if(DVUtils.isAboveLollipop()){
+        	mLightDismissDrawable = res.getDrawable(R.drawable.deck_child_view_dismiss_light);
+        	mDarkDismissDrawable = res.getDrawable(R.drawable.deck_child_view_dismiss_dark);
+        }else{
+        	mLightDismissDrawable = null;
+        	mDarkDismissDrawable = null;
+        }
         mDismissContentDescription =
                 res.getString(R.string.accessibility_item_will_be_dismissed);
 
@@ -118,21 +125,30 @@ public class BusinessCardChildViewHeader extends FrameLayout {
         mDismissButton = (ImageView) findViewById(R.id.dismiss_task);
 
         // Hide the backgrounds if they are ripple drawables
-        if (!DVConstants.DebugFlags.App.EnableTaskFiltering) {
+        if (!DVConstants.DebugFlags.App.EnableTaskFiltering && DVUtils.isAboveLollipop()) {
             if (mApplicationIcon.getBackground() instanceof RippleDrawable) {
                 mApplicationIcon.setBackground(null);
             }
         }
 
-        mBackgroundColorDrawable = (GradientDrawable) getContext().getDrawable(R.drawable
+        if(DVUtils.isAboveLollipop()){
+        	mBackgroundColorDrawable = (GradientDrawable) getContext().getDrawable(R.drawable
                 .deck_child_view_header_bg_color);
+        }else{
+        	mBackgroundColorDrawable = (GradientDrawable) getResources().getDrawable(R.drawable.
+        			deck_child_view_header_bg_color);
+        }
         // Copy the ripple drawable since we are going to be manipulating it
-        mBackground = (RippleDrawable)
-                getContext().getDrawable(R.drawable.deck_child_view_header_bg);
-        mBackground = (RippleDrawable) mBackground.mutate().getConstantState().newDrawable();
-        mBackground.setColor(ColorStateList.valueOf(0));
-        mBackground.setDrawableByLayerId(mBackground.getId(0), mBackgroundColorDrawable);
-        setBackground(mBackground);
+        if(DVUtils.isAboveLollipop()){
+	        mBackground = (RippleDrawable)
+	                getContext().getDrawable(R.drawable.deck_child_view_header_bg);
+	        mBackground = (RippleDrawable) mBackground.mutate().getConstantState().newDrawable();
+	        mBackground.setColor(ColorStateList.valueOf(0));
+	        mBackground.setDrawableByLayerId(mBackground.getId(0), mBackgroundColorDrawable);
+	        setBackground(mBackground);
+        }else{
+        	setBackground(mBackgroundColorDrawable);
+        }
     }
 
     @Override
@@ -142,8 +158,13 @@ public class BusinessCardChildViewHeader extends FrameLayout {
         float radius = mConfig.taskViewRoundedCornerRadiusPx;
         int count = canvas.save(Canvas.CLIP_SAVE_FLAG);
         canvas.clipRect(0, 0, getMeasuredWidth(), getMeasuredHeight());
-        canvas.drawRoundRect(-offset, 0f, (float) getMeasuredWidth() + offset,
+        if(DVUtils.isAboveLollipop()){
+        	//TODO 兼容性问题，去掉圆角
+        	canvas.drawRoundRect(-offset, 0f, (float) getMeasuredWidth() + offset,
                 getMeasuredHeight() + radius, radius, radius, sHighlightPaint);
+        }else{
+        	canvas.drawRect(-offset, 0f, (float)getMeasuredWidth() + offset, getMeasuredHeight() + radius, sHighlightPaint);
+        }
         canvas.restoreToCount(count);
     }
 
