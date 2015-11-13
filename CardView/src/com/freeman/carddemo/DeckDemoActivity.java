@@ -9,6 +9,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.freeman.cardview.R;
@@ -34,7 +37,7 @@ public class DeckDemoActivity extends Activity {
 		mDeckView = (BusinessCardView) findViewById(R.id.deckview);
 		
 		mDefaultThumbnail = BitmapFactory.decodeResource(getResources(),
-                R.drawable.default_thumbnail);
+                R.drawable.test_business_card);
         mDefaultHeaderIcon = getResources().getDrawable(R.drawable.default_header_icon);
         
         if(mEntries == null){
@@ -97,5 +100,48 @@ public class DeckDemoActivity extends Activity {
             weakView.get().onDataLoaded(item, mDefaultThumbnail,
                     mDefaultHeaderIcon, "Loading...", Color.DKGRAY);
         }
+	}
+	
+	private void changeDataSet(int size){
+		ArrayList<DemoData> tempList = new ArrayList<DemoData>();
+		for(int i = 0; i < size; i++){
+			DemoData data = new DemoData();
+    		data.strDesc = "test " + i;
+			tempList.add(data);
+		}
+		mEntries.clear();
+		mEntries.addAll(tempList);
+		mDeckView.notifyDataSetChanged();
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.deck_demo_menu, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()){
+		case R.id.action_set_two:
+			changeDataSet(2);
+			break;
+		case R.id.action_set_four:
+			changeDataSet(4);
+			break;
+		case R.id.action_set_ten:
+			changeDataSet(10);
+			break;
+		case R.id.action_set_hundred:
+			changeDataSet(100);
+			break;
+		case R.id.action_set_five_hundred:
+			changeDataSet(500);
+			break;
+		case R.id.action_set_thousand:
+			changeDataSet(1000);
+			break;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }

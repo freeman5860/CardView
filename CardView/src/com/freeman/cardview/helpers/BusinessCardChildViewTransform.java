@@ -102,10 +102,12 @@ public class BusinessCardChildViewTransform {
             if (requiresLayers && allowLayers) {
                 anim.withLayer();
             }
-            if (updateCallback != null) {
-                anim.setUpdateListener(updateCallback);
-            } else {
-                anim.setUpdateListener(null);
+            if(DVUtils.isAboveSDKVersion(19)){
+	            if (updateCallback != null) {
+	                anim.setUpdateListener(updateCallback);
+	            } else {
+	                anim.setUpdateListener(null);
+	            }
             }
             anim.setStartDelay(startDelay)
                     .setDuration(duration)

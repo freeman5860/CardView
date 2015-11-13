@@ -1,6 +1,8 @@
 package com.freeman.cardview.views;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
 import android.view.InputDevice;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
@@ -190,7 +192,8 @@ public class BusinessCardViewTouchHandler implements BusinessCardViewSwipeHelper
     /**
      * Handles touch events once we have intercepted them
      */
-    public boolean onTouchEvent(MotionEvent ev) {
+    @TargetApi(Build.VERSION_CODES.GINGERBREAD)
+	public boolean onTouchEvent(MotionEvent ev) {
         // Short circuit if we have no children
         boolean hasChildren = (mDeckView.getChildCount() > 0);
         if (!hasChildren) {
@@ -340,7 +343,8 @@ public class BusinessCardViewTouchHandler implements BusinessCardViewSwipeHelper
     /**
      * Handles generic motion events
      */
-    public boolean onGenericMotionEvent(MotionEvent ev) {
+    @TargetApi(Build.VERSION_CODES.GINGERBREAD)
+	public boolean onGenericMotionEvent(MotionEvent ev) {
         if ((ev.getSource() & InputDevice.SOURCE_CLASS_POINTER) ==
                 InputDevice.SOURCE_CLASS_POINTER) {
             int action = ev.getAction();

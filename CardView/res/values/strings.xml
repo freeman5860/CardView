@@ -13,4 +13,11 @@
     <string name="accessibility_item_will_be_dismissed">Dismiss </string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    
+    <string name="action_set_two">2张卡片</string>
+    <string name="action_set_four">4张卡片</string>
+    <string name="action_set_ten">10张卡片</string>
+    <string name="action_set_hundred">100张卡片</string>
+    <string name="action_set_five_hundred">500张卡片</string>
+    <string name="action_set_thousand">1000张卡片</string>
 </resources>

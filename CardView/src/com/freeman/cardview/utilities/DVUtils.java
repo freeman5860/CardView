@@ -5,10 +5,12 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import android.animation.Animator;
+import android.annotation.TargetApi;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.os.Build;
 import android.view.View;
 
 import com.freeman.cardview.helpers.BusinessCardViewConfig;
@@ -188,7 +190,8 @@ public class DVUtils {
      * Cancels an animation ensuring that if it has listeners, onCancel and onEnd
      * are not called.
      */
-    public static void cancelAnimationWithoutCallbacks(Animator animator) {
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	public static void cancelAnimationWithoutCallbacks(Animator animator) {
         if (animator != null) {
             animator.removeAllListeners();
             animator.cancel();
@@ -196,12 +199,16 @@ public class DVUtils {
     }
     
     public static boolean isAboveLollipop(){
-    	boolean isDebug = true;
-    	if(isDebug){
-    		return false;
-    	}
     	
     	if(android.os.Build.VERSION.SDK_INT >= 21){
+    		return true;
+    	}else{
+    		return false;
+    	}
+    }
+    
+    public static boolean isAboveSDKVersion(int sdk){
+    	if(android.os.Build.VERSION.SDK_INT >= sdk){
     		return true;
     	}else{
     		return false;

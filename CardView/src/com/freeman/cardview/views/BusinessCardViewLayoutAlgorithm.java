@@ -67,6 +67,7 @@ public class BusinessCardViewLayoutAlgorithm<T> {
 
         // Precompute the path
         initializeCurve();
+        printLogFunction();
     }
 
     /**
@@ -120,7 +121,7 @@ public class BusinessCardViewLayoutAlgorithm<T> {
         int scaleYOffset = (int) (((1f - scale) * taskHeight) / 2);
         pWithinAffiliateTop = screenYToCurveProgress(mStackVisibleRect.bottom -
                 mWithinAffiliationOffset + scaleYOffset);
-        float pWithinAffiliateOffset = pAtBottomOfStackRect - pWithinAffiliateTop;
+        float pWithinAffiliateOffset = pAtBottomOfStackRect - pWithinAffiliateTop - screenYToCurveProgress(1) * 0.5f;
         float pBetweenAffiliateOffset = pAtBottomOfStackRect -
                 screenYToCurveProgress(mStackVisibleRect.bottom - mBetweenAffiliationOffset);
         float pTaskHeightOffset = pAtBottomOfStackRect -
@@ -161,7 +162,9 @@ public class BusinessCardViewLayoutAlgorithm<T> {
         }
         mInitialScrollP = Math.min(mMaxScrollP, Math.max(0, mInitialScrollP));
         
-        float startTest = 0.08f;
+        float topBarHeight = screenYToCurveProgress(BusinessCardViewConfig.getInstance().taskBarHeight);
+        Log.e("hjy","topBarHeigh:" + topBarHeight);
+        float startTest = pWithinAffiliateOffset;
         if(taskCount > 3){
         	while(startTest < mMaxScrollP){
         		mProgressList.add(startTest);
@@ -453,5 +456,11 @@ public class BusinessCardViewLayoutAlgorithm<T> {
 			log += mProgressList.get(i) + " ";
 		}
 		Log.e("hjy","log:" + log);
+	}
+	
+	private void printLogFunction(){
+		for(int i = 0 ; i < PrecisionSteps; i++){
+			Log.e("hjy","i " + i + " xp:" + xp[i] * 10 + " px:" + px[i] * 10);
+		}
 	}
 }

@@ -20,16 +20,16 @@
     <FrameLayout
         android:id="@+id/task_view_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/darker_gray">
+        android:layout_height="match_parent">
 
             <ImageView
             	android:id="@+id/task_view_thumbnail"
             	android:layout_width="match_parent"
             	android:layout_height="match_parent" 
-            	android:scaleType="fitXY"/>
+            	android:scaleType="fitStart"/>
             
-            <include layout="@layout/deck_child_view_header_new" />
+            <include layout="@layout/deck_child_view_header_new"
+                android:visibility="gone" />
               
     </FrameLayout>
 </com.freeman.cardview.views.BusinessCardChildView>

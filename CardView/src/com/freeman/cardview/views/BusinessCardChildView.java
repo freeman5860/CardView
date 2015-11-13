@@ -3,6 +3,7 @@ package com.freeman.cardview.views;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -11,15 +12,14 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Interpolator;
-import android.view.animation.PathInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.freeman.cardview.R;
 import com.freeman.cardview.helpers.BusinessCardChildViewTransform;
@@ -40,15 +40,15 @@ public class BusinessCardChildView<T> extends FrameLayout implements
      * The TaskView callbacks
      */
     interface DeckChildViewCallbacks<T> {
-        public void onDeckChildViewAppIconClicked(BusinessCardChildView dcv);
+        public void onDeckChildViewAppIconClicked(BusinessCardChildView<T> dcv);
 
-        public void onDeckChildViewAppInfoClicked(BusinessCardChildView dcv);
+        public void onDeckChildViewAppInfoClicked(BusinessCardChildView<T> dcv);
 
         public void onDeckChildViewClicked(BusinessCardChildView<T> dcv, T key);
 
         public void onDeckChildViewDismissed(BusinessCardChildView<T> dcv);
 
-        public void onDeckChildViewClipStateChanged(BusinessCardChildView dcv);
+        public void onDeckChildViewClipStateChanged(BusinessCardChildView<T> dcv);
 
         public void onDeckChildViewFocusChanged(BusinessCardChildView<T> dcv, boolean focused);
     }
@@ -114,7 +114,7 @@ public class BusinessCardChildView<T> extends FrameLayout implements
     /**
      * Set callback
      */
-    void setCallbacks(DeckChildViewCallbacks cb) {
+    void setCallbacks(DeckChildViewCallbacks<T> cb) {
         mCb = cb;
     }
 
@@ -156,7 +156,6 @@ public class BusinessCardChildView<T> extends FrameLayout implements
         int height = MeasureSpec.getSize(heightMeasureSpec);
 
         int widthWithoutPadding = width - getPaddingLeft() - getPaddingRight();
-        int heightWithoutPadding = height - getPaddingTop() - getPaddingBottom();
 
         // Measure the content
         mContent.measure(MeasureSpec.makeMeasureSpec(widthWithoutPadding, MeasureSpec.EXACTLY),
@@ -205,7 +204,8 @@ public class BusinessCardChildView<T> extends FrameLayout implements
     /**
      * Resets this view's properties
      */
-    void resetViewProperties() {
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	void resetViewProperties() {
         setDim(0);
         setLayerType(View.LAYER_TYPE_NONE, null);
         BusinessCardChildViewTransform.reset(this);
@@ -480,7 +480,7 @@ public class BusinessCardChildView<T> extends FrameLayout implements
                 mContent.setLayerType(LAYER_TYPE_HARDWARE, mDimLayerPaint);
             }
         } else {
-            float dimAlpha = mDimAlpha / 255.0f;
+            //float dimAlpha = mDimAlpha / 255.0f;
             if (mThumbnailView != null) {
                 //TODO mThumbnailView.setDimAlpha(dimAlpha);
             }

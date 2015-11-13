@@ -98,8 +98,15 @@ public final class R {
         public static final int default_thumbnail=0x7f020005;
         public static final int ic_launcher=0x7f020006;
         public static final int rounded_background_black=0x7f020007;
+        public static final int test_business_card=0x7f020008;
     }
     public static final class id {
+        public static final int action_set_five_hundred=0x7f09000e;
+        public static final int action_set_four=0x7f09000b;
+        public static final int action_set_hundred=0x7f09000d;
+        public static final int action_set_ten=0x7f09000c;
+        public static final int action_set_thousand=0x7f09000f;
+        public static final int action_set_two=0x7f09000a;
         public static final int activity_description=0x7f090008;
         public static final int application_icon=0x7f090007;
         public static final int deckview=0x7f090003;
@@ -182,10 +189,19 @@ public final class R {
         public static final int deck_child_view_header=0x7f030002;
         public static final int deck_child_view_header_new=0x7f030003;
     }
+    public static final class menu {
+        public static final int deck_demo_menu=0x7f0c0000;
+    }
     public static final class string {
         /**  Content description to tell the user that this button will remove an application from recents 
          */
         public static final int accessibility_item_will_be_dismissed=0x7f0a0002;
+        public static final int action_set_five_hundred=0x7f0a0009;
+        public static final int action_set_four=0x7f0a0006;
+        public static final int action_set_hundred=0x7f0a0008;
+        public static final int action_set_ten=0x7f0a0007;
+        public static final int action_set_thousand=0x7f0a000a;
+        public static final int action_set_two=0x7f0a0005;
         public static final int action_settings=0x7f0a0004;
         public static final int app_name=0x7f0a0000;
         public static final int deck_view_empty_message=0x7f0a0001;

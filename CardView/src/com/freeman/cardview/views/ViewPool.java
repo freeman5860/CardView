@@ -1,6 +1,8 @@
 package com.freeman.cardview.views;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -37,7 +39,8 @@ public class ViewPool<V, T> {
     /**
      * Returns a view into the pool
      */
-    void returnViewToPool(V v) {
+    @TargetApi(Build.VERSION_CODES.GINGERBREAD)
+	void returnViewToPool(V v) {
         mViewCreator.prepareViewToEnterPool(v);
         mPool.push(v);
     }
@@ -45,7 +48,8 @@ public class ViewPool<V, T> {
     /**
      * Gets a view from the pool and prepares it
      */
-    V pickUpViewFromPool(T preferredData, T prepareData) {
+    @TargetApi(Build.VERSION_CODES.GINGERBREAD)
+	V pickUpViewFromPool(T preferredData, T prepareData) {
         V v = null;
         boolean isNewView = false;
         if (mPool.isEmpty()) {

@@ -21,7 +21,7 @@ public class BusinessCardViewScroller {
     }
 
     BusinessCardViewConfig mConfig;
-    BusinessCardViewLayoutAlgorithm mLayoutAlgorithm;
+    BusinessCardViewLayoutAlgorithm<?> mLayoutAlgorithm;
     DeckViewScrollerCallbacks mCb;
 
     float mStackScrollP;

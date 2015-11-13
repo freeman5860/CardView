@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+	<item
+        android:id="@+id/action_set_two"
+        android:orderInCategory="100"
+        android:title="@string/action_set_two"/> 
+        
+	<item
+        android:id="@+id/action_set_four"
+        android:orderInCategory="100"
+        android:title="@string/action_set_four"/>  
+        
+	<item
+        android:id="@+id/action_set_ten"
+        android:orderInCategory="100"
+        android:title="@string/action_set_ten"/>  
+        
+	<item
+        android:id="@+id/action_set_hundred"
+        android:orderInCategory="100"
+        android:title="@string/action_set_hundred"/>  
+        
+	<item
+        android:id="@+id/action_set_five_hundred"
+        android:orderInCategory="100"
+        android:title="@string/action_set_five_hundred"/>
+	
+	<item
+        android:id="@+id/action_set_thousand"
+        android:orderInCategory="100"
+        android:title="@string/action_set_thousand"/>
+
+</menu>
