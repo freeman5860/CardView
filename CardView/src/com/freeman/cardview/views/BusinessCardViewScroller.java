@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.util.Log;
 import android.widget.OverScroller;
 
 import com.freeman.cardview.helpers.BusinessCardViewConfig;
@@ -211,9 +210,7 @@ public class BusinessCardViewScroller {
     boolean computeScroll() {
         if (mScroller.computeScrollOffset()) {        	
             float scroll = scrollRangeToProgress(mScroller.getCurrY());
-            Log.e("hjy","scroll: " + scroll);
             if(Math.abs(scroll - getStackScroll()) < 0.001f){
-            	Log.e("hjy","compute scroll stop? " + getStackScroll());
             	scrollToStickPosition();
             }
             setStackScrollRaw(scroll);

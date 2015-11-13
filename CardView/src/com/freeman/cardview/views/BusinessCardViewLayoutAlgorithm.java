@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.graphics.Rect;
-import android.util.Log;
 
 import com.freeman.cardview.helpers.BusinessCardChildViewTransform;
 import com.freeman.cardview.helpers.BusinessCardViewConfig;
@@ -67,7 +66,6 @@ public class BusinessCardViewLayoutAlgorithm<T> {
 
         // Precompute the path
         initializeCurve();
-        printLogFunction();
     }
 
     /**
@@ -162,16 +160,13 @@ public class BusinessCardViewLayoutAlgorithm<T> {
         }
         mInitialScrollP = Math.min(mMaxScrollP, Math.max(0, mInitialScrollP));
         
-        float topBarHeight = screenYToCurveProgress(BusinessCardViewConfig.getInstance().taskBarHeight);
-        Log.e("hjy","topBarHeigh:" + topBarHeight);
-        float startTest = pWithinAffiliateOffset;
+        float startOffset = pWithinAffiliateOffset;
         if(taskCount > 3){
-        	while(startTest < mMaxScrollP){
-        		mProgressList.add(startTest);
-        		startTest += pBetweenAffiliateOffset;
+        	while(startOffset < mMaxScrollP){
+        		mProgressList.add(startOffset);
+        		startOffset += pBetweenAffiliateOffset;
         	}
         }
-        printProgressList();
     }
 
     /**
@@ -428,9 +423,6 @@ public class BusinessCardViewLayoutAlgorithm<T> {
     public float getTargetScrollFor(float curScroll){
     	for(int i = 0; i< mProgressList.size() - 1; i++){
     		if(mProgressList.get(i) > curScroll){
-    			Log.e("hjy","curScroll: " + curScroll + 
-    					" with " + i + ": " + mProgressList.get(i) + 
-    					" and " + (i + 1) + " :" + mProgressList.get(i + 1) );
     			
     			float dist1 = Math.abs(mProgressList.get(i + 1) - curScroll);
     			float dist2 = Math.abs(mProgressList.get(i) - curScroll);
@@ -445,22 +437,6 @@ public class BusinessCardViewLayoutAlgorithm<T> {
     }
 
 	public boolean needStickScroll(float curScroll) {
-		Log.e("hjy","needStickScroll: " + curScroll);
-		printProgressList();
 		return curScroll < 0f ? false : true;
-	}
-	
-	private void printProgressList(){
-		String log = "";
-		for(int i = 0; i < mProgressList.size(); i++){
-			log += mProgressList.get(i) + " ";
-		}
-		Log.e("hjy","log:" + log);
-	}
-	
-	private void printLogFunction(){
-		for(int i = 0 ; i < PrecisionSteps; i++){
-			Log.e("hjy","i " + i + " xp:" + xp[i] * 10 + " px:" + px[i] * 10);
-		}
 	}
 }
