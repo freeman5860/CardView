@@ -26,10 +26,8 @@
             	android:id="@+id/task_view_thumbnail"
             	android:layout_width="match_parent"
             	android:layout_height="match_parent" 
-            	android:scaleType="fitStart"/>
-            
-            <include layout="@layout/deck_child_view_header_new"
-                android:visibility="gone" />
+            	android:scaleType="fitStart"
+            	android:contentDescription="@string/app_name"/>
               
     </FrameLayout>
 </com.freeman.cardview.views.BusinessCardChildView>

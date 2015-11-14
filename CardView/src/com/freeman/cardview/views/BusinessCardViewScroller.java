@@ -30,7 +30,7 @@ public class BusinessCardViewScroller {
     float mFinalAnimatedScroll;
 
     public BusinessCardViewScroller(Context context, BusinessCardViewConfig config,
-                            BusinessCardViewLayoutAlgorithm layoutAlgorithm) {
+                            BusinessCardViewLayoutAlgorithm<?> layoutAlgorithm) {
         mConfig = config;
         mScroller = new OverScroller(context);
         mLayoutAlgorithm = layoutAlgorithm;

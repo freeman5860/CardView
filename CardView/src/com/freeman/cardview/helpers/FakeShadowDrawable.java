@@ -69,7 +69,8 @@ public class FakeShadowDrawable extends Drawable {
      */
     private boolean mPrintedShadowClipWarning = false;
 
-    public FakeShadowDrawable(Resources resources, BusinessCardViewConfig config) {
+    @SuppressWarnings("deprecation")
+	public FakeShadowDrawable(Resources resources, BusinessCardViewConfig config) {
         mShadowStartColor = resources.getColor(R.color.fake_shadow_start_color);
         mShadowEndColor = resources.getColor(R.color.fake_shadow_end_color);
         mInsetShadow = resources.getDimension(R.dimen.fake_shadow_inset);

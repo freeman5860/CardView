@@ -11,18 +11,18 @@ import android.view.ViewConfiguration;
 import android.view.ViewParent;
 
 import com.freeman.cardview.helpers.BusinessCardViewConfig;
-import com.freeman.cardview.helpers.BusinessCardViewSwipeHelper;
 import com.freeman.cardview.utilities.DVConstants;
+import com.freeman.cardview.utilities.DVUtils;
 
 /**
  * Created by Vikram on 02/04/2015.
  */
 /* Handles touch events for a TaskStackView. */
-public class BusinessCardViewTouchHandler implements BusinessCardViewSwipeHelper.Callback {
+public class BusinessCardViewTouchHandler {
     static int INACTIVE_POINTER_ID = -1;
 
     BusinessCardViewConfig mConfig;
-    BusinessCardView mDeckView;
+    BusinessCardView<?> mDeckView;
     BusinessCardViewScroller mScroller;
     VelocityTracker mVelocityTracker;
 
@@ -34,7 +34,7 @@ public class BusinessCardViewTouchHandler implements BusinessCardViewSwipeHelper
     int mInitialMotionX, mInitialMotionY;
     int mLastMotionX, mLastMotionY;
     int mActivePointerId = INACTIVE_POINTER_ID;
-    BusinessCardChildView mActiveDeckChildView = null;
+    BusinessCardChildView<?> mActiveDeckChildView = null;
 
     int mMinimumVelocity;
     int mMaximumVelocity;
@@ -43,10 +43,7 @@ public class BusinessCardViewTouchHandler implements BusinessCardViewSwipeHelper
     // The page touch slop is used to calculate when we start swiping
     float mPagingTouchSlop;
 
-    BusinessCardViewSwipeHelper mSwipeHelper;
-    boolean mInterceptedBySwipeHelper;
-
-    public BusinessCardViewTouchHandler(Context context, BusinessCardView dv,
+    public BusinessCardViewTouchHandler(Context context, BusinessCardView<?> dv,
                                 BusinessCardViewConfig config, BusinessCardViewScroller scroller) {
         ViewConfiguration configuration = ViewConfiguration.get(context);
         mMinimumVelocity = configuration.getScaledMinimumFlingVelocity();
@@ -56,11 +53,6 @@ public class BusinessCardViewTouchHandler implements BusinessCardViewSwipeHelper
         mDeckView = dv;
         mScroller = scroller;
         mConfig = config;
-
-        float densityScale = context.getResources().getDisplayMetrics().density;
-        mSwipeHelper = new BusinessCardViewSwipeHelper(BusinessCardViewSwipeHelper.X, this,
-                densityScale, mPagingTouchSlop);
-        mSwipeHelper.setMinAlpha(1f);
     }
 
     /**
@@ -90,10 +82,10 @@ public class BusinessCardViewTouchHandler implements BusinessCardViewSwipeHelper
     /**
      * Returns the view at the specified coordinates
      */
-    BusinessCardChildView findViewAtPoint(int x, int y) {
+    BusinessCardChildView<?> findViewAtPoint(int x, int y) {
         int childCount = mDeckView.getChildCount();
         for (int i = childCount - 1; i >= 0; i--) {
-            BusinessCardChildView tv = (BusinessCardChildView) mDeckView.getChildAt(i);
+            BusinessCardChildView<?> tv = (BusinessCardChildView<?>) mDeckView.getChildAt(i);
             if (tv.getVisibility() == View.VISIBLE) {
                 if (mDeckView.isTransformedTouchPointInView(x, y, tv)) {
                     return tv;
@@ -115,6 +107,7 @@ public class BusinessCardViewTouchHandler implements BusinessCardViewSwipeHelper
     /**
      * Touch preprocessing for handling below
      */
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB) 
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         // Return early if we have no children
         boolean hasChildren = (mDeckView.getChildCount() > 0);
@@ -122,14 +115,10 @@ public class BusinessCardViewTouchHandler implements BusinessCardViewSwipeHelper
             return false;
         }
 
-        // Pass through to swipe helper if we are swiping
-        mInterceptedBySwipeHelper = mSwipeHelper.onInterceptTouchEvent(ev);
-        if (mInterceptedBySwipeHelper) {
-            return true;
+        boolean wasScrolling = mScroller.isScrolling();
+        if(DVUtils.isAboveSDKVersion(11)){
+        	wasScrolling = wasScrolling || (mScroller.mScrollAnimator != null && mScroller.mScrollAnimator.isRunning());
         }
-
-        boolean wasScrolling = mScroller.isScrolling() ||
-                (mScroller.mScrollAnimator != null && mScroller.mScrollAnimator.isRunning());
         int action = ev.getAction();
         switch (action & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN: {
@@ -198,11 +187,6 @@ public class BusinessCardViewTouchHandler implements BusinessCardViewSwipeHelper
         boolean hasChildren = (mDeckView.getChildCount() > 0);
         if (!hasChildren) {
             return false;
-        }
-
-        // Pass through to swipe helper if we are swiping
-        if (mInterceptedBySwipeHelper && mSwipeHelper.onTouchEvent(ev)) {
-            return true;
         }
 
         // Update the velocity tracker
@@ -343,7 +327,7 @@ public class BusinessCardViewTouchHandler implements BusinessCardViewSwipeHelper
     /**
      * Handles generic motion events
      */
-    @TargetApi(Build.VERSION_CODES.GINGERBREAD)
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
 	public boolean onGenericMotionEvent(MotionEvent ev) {
         if ((ev.getSource() & InputDevice.SOURCE_CLASS_POINTER) ==
                 InputDevice.SOURCE_CLASS_POINTER) {
@@ -351,77 +335,21 @@ public class BusinessCardViewTouchHandler implements BusinessCardViewSwipeHelper
             switch (action & MotionEvent.ACTION_MASK) {
                 case MotionEvent.ACTION_SCROLL:
                     // Find the front most task and scroll the next task to the front
-                    float vScroll = ev.getAxisValue(MotionEvent.AXIS_VSCROLL);
-                    if (vScroll > 0) {
-                        if (mDeckView.ensureFocusedTask()) {
-                            mDeckView.focusNextTask(true, false);
-                        }
-                    } else {
-                        if (mDeckView.ensureFocusedTask()) {
-                            mDeckView.focusNextTask(false, false);
-                        }
-                    }
+                	if(DVUtils.isAboveSDKVersion(12)){
+		                float vScroll = ev.getAxisValue(MotionEvent.AXIS_VSCROLL);
+		                if (vScroll > 0) {
+		                    if (mDeckView.ensureFocusedTask()) {
+		                        mDeckView.focusNextTask(true, false);
+		                    }
+		                } else {
+		                    if (mDeckView.ensureFocusedTask()) {
+		                        mDeckView.focusNextTask(false, false);
+		                    }
+		                }
+                	}
                     return true;
             }
         }
         return false;
-    }
-
-    /**
-     * * SwipeHelper Implementation ***
-     */
-
-    @Override
-    public View getChildAtPosition(MotionEvent ev) {
-        return findViewAtPoint((int) ev.getX(), (int) ev.getY());
-    }
-
-    @Override
-    public boolean canChildBeDismissed(View v) {
-        return true;
-    }
-
-    @Override
-    public void onBeginDrag(View v) {
-        BusinessCardChildView tv = (BusinessCardChildView) v;
-        // Disable clipping with the stack while we are swiping
-        tv.setClipViewInStack(false);
-        // Disallow touch events from this task view
-        tv.setTouchEnabled(false);
-        // Disallow parents from intercepting touch events
-        final ViewParent parent = mDeckView.getParent();
-        if (parent != null) {
-            parent.requestDisallowInterceptTouchEvent(true);
-        }
-    }
-
-    @Override
-    public void onSwipeChanged(View v, float delta) {
-        // Do nothing
-    }
-
-    @Override
-    public void onChildDismissed(View v) {
-        BusinessCardChildView tv = (BusinessCardChildView) v;
-        // Re-enable clipping with the stack (we will reuse this view)
-        tv.setClipViewInStack(true);
-        // Re-enable touch events from this task view
-        tv.setTouchEnabled(true);
-        // Remove the task view from the stack
-        mDeckView.onDeckChildViewDismissed(tv);
-    }
-
-    @Override
-    public void onSnapBackCompleted(View v) {
-        BusinessCardChildView tv = (BusinessCardChildView) v;
-        // Re-enable clipping with the stack
-        tv.setClipViewInStack(true);
-        // Re-enable touch events from this task view
-        tv.setTouchEnabled(true);
-    }
-
-    @Override
-    public void onDragCancelled(View v) {
-        // Do nothing
     }
 }

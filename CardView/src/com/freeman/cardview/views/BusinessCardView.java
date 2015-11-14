@@ -58,7 +58,7 @@ public class BusinessCardView<T> extends FrameLayout implements /*TaskStack.Task
     Matrix mTmpMatrix = new Matrix();
     Rect mTmpRect = new Rect();
     BusinessCardChildViewTransform mTmpTransform = new BusinessCardChildViewTransform();
-    HashMap<T, BusinessCardChildView> mTmpTaskViewMap = new HashMap<T, BusinessCardChildView>();
+    HashMap<T, BusinessCardChildView<T>> mTmpTaskViewMap = new HashMap<T, BusinessCardChildView<T>>();
     LayoutInflater mInflater;
 
     // A convenience update listener to request updating clipping of tasks
@@ -101,7 +101,7 @@ public class BusinessCardView<T> extends FrameLayout implements /*TaskStack.Task
                 // Show the task bar dismiss buttons
                 int childCount = getChildCount();
                 for (int i = 0; i < childCount; i++) {
-                    BusinessCardChildView tv = (BusinessCardChildView) getChildAt(i);
+                    BusinessCardChildView<?> tv = (BusinessCardChildView<?>) getChildAt(i);
                     tv.startNoUserInteractionAnimation();
                 }
             }

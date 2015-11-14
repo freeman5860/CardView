@@ -25,8 +25,6 @@ public class DeckDemoActivity extends Activity {
 	ArrayList<DemoData> mEntries;
 	
 	Bitmap mDefaultThumbnail;
-	
-	Drawable mDefaultHeaderIcon;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +36,6 @@ public class DeckDemoActivity extends Activity {
 		
 		mDefaultThumbnail = BitmapFactory.decodeResource(getResources(),
                 R.drawable.test_business_card);
-        mDefaultHeaderIcon = getResources().getDrawable(R.drawable.default_header_icon);
         
         if(mEntries == null){
         	mEntries = new ArrayList<DemoData>();
@@ -98,7 +95,7 @@ public class DeckDemoActivity extends Activity {
 			WeakReference<BusinessCardChildView<DemoData>> weakView) {
 		if (weakView.get() != null) {
             weakView.get().onDataLoaded(item, mDefaultThumbnail,
-                    mDefaultHeaderIcon, "Loading...", Color.DKGRAY);
+                    null, "Loading...", Color.DKGRAY);
         }
 	}
 	

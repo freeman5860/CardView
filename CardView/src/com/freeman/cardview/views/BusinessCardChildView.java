@@ -26,7 +26,6 @@ import com.freeman.cardview.helpers.BusinessCardChildViewTransform;
 import com.freeman.cardview.helpers.BusinessCardViewConfig;
 import com.freeman.cardview.helpers.FakeShadowDrawable;
 import com.freeman.cardview.helpers.PathInterpolatorDonut;
-import com.freeman.cardview.utilities.DVConstants;
 import com.freeman.cardview.utilities.DVUtils;
 
 /**
@@ -72,7 +71,6 @@ public class BusinessCardChildView<T> extends FrameLayout implements
 
     View mContent;
     ImageView mThumbnailView;
-    View mHeaderView;
     DeckChildViewCallbacks<T> mCb;
 
     public static final Interpolator ALPHA_IN = new PathInterpolatorDonut(0.4f, 0f, 1f, 1f);
@@ -146,7 +144,6 @@ public class BusinessCardChildView<T> extends FrameLayout implements
     protected void onFinishInflate() {
         // Bind the views
         mContent = findViewById(R.id.task_view_content);
-        mHeaderView = findViewById(R.id.task_view_bar);
         mThumbnailView = (ImageView) findViewById(R.id.task_view_thumbnail);
     }
 
@@ -160,10 +157,6 @@ public class BusinessCardChildView<T> extends FrameLayout implements
         // Measure the content
         mContent.measure(MeasureSpec.makeMeasureSpec(widthWithoutPadding, MeasureSpec.EXACTLY),
                 MeasureSpec.makeMeasureSpec(widthWithoutPadding, MeasureSpec.EXACTLY));
-
-        // Measure the bar view, and action button
-        mHeaderView.measure(MeasureSpec.makeMeasureSpec(widthWithoutPadding, MeasureSpec.EXACTLY),
-                MeasureSpec.makeMeasureSpec(mConfig.taskBarHeight, MeasureSpec.EXACTLY));
 
         // Measure the thumbnail to be square
         mThumbnailView.measure(
@@ -484,9 +477,6 @@ public class BusinessCardChildView<T> extends FrameLayout implements
             if (mThumbnailView != null) {
                 //TODO mThumbnailView.setDimAlpha(dimAlpha);
             }
-            if (mHeaderView != null) {
-              //  mHeaderView.setDimAlpha(dim);
-            }
         }
     }
 
@@ -640,31 +630,24 @@ public class BusinessCardChildView<T> extends FrameLayout implements
         if (!isBound() || !mKey.equals(key))
             return;
 
-        if (mThumbnailView != null && mHeaderView != null) {
+        if (mThumbnailView != null) {
             // Bind each of the views to the new task data
         	mThumbnailView.setImageBitmap(thumbnail);
-          //  mHeaderView.rebindToTask(headerIcon, headerTitle, headerBgColor);
             // Rebind any listeners
           //  mHeaderView.mApplicationIcon.setOnClickListener(this);
           //  mHeaderView.mDismissButton.setOnClickListener(this);
-
-            // TODO: Check if this functionality is needed
-         //   mHeaderView.mApplicationIcon.setOnLongClickListener(this);
         }
         mTaskDataLoaded = true;
     }
 
     public void onDataUnloaded() {
-        if (mThumbnailView != null && mHeaderView != null) {
+        if (mThumbnailView != null) {
             // Unbind each of the views from the task data and remove the task callback
             mThumbnailView.setImageBitmap(null);
          //   mHeaderView.unbindFromTask();
             // Unbind any listeners
          //   mHeaderView.mApplicationIcon.setOnClickListener(null);
          //   mHeaderView.mDismissButton.setOnClickListener(null);
-            if (DVConstants.DebugFlags.App.EnableDevAppInfoOnLongPress) {
-         //       mHeaderView.mApplicationIcon.setOnLongClickListener(null);
-            }
         }
         mTaskDataLoaded = false;
     }

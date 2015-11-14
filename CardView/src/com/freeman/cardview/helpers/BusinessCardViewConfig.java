@@ -199,7 +199,8 @@ public class BusinessCardViewConfig {
     /**
      * Updates the state, given the specified context
      */
-    void update(Context context) {
+    @SuppressWarnings("deprecation")
+	void update(Context context) {
         SharedPreferences settings = context.getSharedPreferences(context.getPackageName(), 0);
         Resources res = context.getResources();
         DisplayMetrics dm = res.getDisplayMetrics();
