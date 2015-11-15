@@ -6,9 +6,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import android.animation.ValueAnimator;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Matrix;
 import android.graphics.Rect;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -524,13 +526,15 @@ public class BusinessCardView<T> extends FrameLayout implements /*TaskStack.Task
         mFocusedTaskIndex = -1;
     }
 
+    @SuppressWarnings("unchecked")
+	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     @Override
     public void onInitializeAccessibilityEvent(AccessibilityEvent event) {
         super.onInitializeAccessibilityEvent(event);
         int childCount = getChildCount();
         if (childCount > 0) {
-            BusinessCardChildView<T> backMostTask = (BusinessCardChildView) getChildAt(0);
-            BusinessCardChildView<T> frontMostTask = (BusinessCardChildView) getChildAt(childCount - 1);
+            BusinessCardChildView<T> backMostTask = (BusinessCardChildView<T>) getChildAt(0);
+            BusinessCardChildView<T> frontMostTask = (BusinessCardChildView<T>) getChildAt(childCount - 1);
             event.setFromIndex(mCallback.getData().indexOf(backMostTask.getAttachedKey()));
             event.setToIndex(mCallback.getData().indexOf(frontMostTask.getAttachedKey()));
         }
@@ -787,6 +791,7 @@ public class BusinessCardView<T> extends FrameLayout implements /*TaskStack.Task
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.KITKAT_WATCH) 
     @Override
     public WindowInsets onApplyWindowInsets(WindowInsets insets) {
         // Update the configuration with the latest system insets and trigger a relayout
@@ -1118,7 +1123,9 @@ public class BusinessCardView<T> extends FrameLayout implements /*TaskStack.Task
     public void onScrollChanged(float p) {
         mUIDozeTrigger.poke();
         requestSynchronizeStackViewsWithModel();
-        postInvalidateOnAnimation();
+        if(DVUtils.isAboveSDKVersion(16)){
+        	postInvalidateOnAnimation();
+        }
     }
 
     public void notifyDataSetChangedOld() {
