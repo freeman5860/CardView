@@ -1,9 +1,5 @@
 package com.freeman.cardview.utilities;
 
-/**
- * Created by Vikram on 01/04/2015.
- */
-
 import android.os.Handler;
 
 /**

@@ -29,10 +29,6 @@ import com.freeman.cardview.helpers.PathInterpolatorDonut;
 import com.freeman.cardview.helpers.ViewHelper;
 import com.freeman.cardview.utilities.DVUtils;
 
-/**
- * Created by Vikram on 02/04/2015.
- */
-/* A task view */
 public class BusinessCardChildView<T> extends FrameLayout implements
 		View.OnClickListener, View.OnLongClickListener {
 

@@ -11,14 +11,14 @@ import android.view.ViewConfiguration;
 import android.view.ViewParent;
 
 import com.freeman.cardview.helpers.BusinessCardViewConfig;
-import com.freeman.cardview.utilities.DVConstants;
 import com.freeman.cardview.utilities.DVUtils;
 
-/**
- * Created by Vikram on 02/04/2015.
- */
-/* Handles touch events for a TaskStackView. */
+
 public class BusinessCardViewTouchHandler {
+	public static final int TaskStackMinOverscrollRange = 32;
+    public static final int TaskStackMaxOverscrollRange = 128;
+    public static final int FilterStartDelay = 25;
+    
     static int INACTIVE_POINTER_ID = -1;
 
     BusinessCardViewConfig mConfig;
@@ -267,15 +267,15 @@ public class BusinessCardViewTouchHandler {
                 if (mIsScrolling && (Math.abs(velocity) > mMinimumVelocity)) {
                     float overscrollRangePct = Math.abs((float) velocity / mMaximumVelocity);
                     int overscrollRange = (int) (Math.min(1f, overscrollRangePct) *
-                            (DVConstants.Values.DView.TaskStackMaxOverscrollRange -
-                                    DVConstants.Values.DView.TaskStackMinOverscrollRange));
+                            (TaskStackMaxOverscrollRange -
+                                    TaskStackMinOverscrollRange));
                     mScroller.mScroller.fling(0,
                             mScroller.progressToScrollRange(mScroller.getStackScroll()),
                             0, velocity,
                             0, 0,
                             mScroller.progressToScrollRange(mDeckView.getStackAlgorithm().mMinScrollP),
                             mScroller.progressToScrollRange(mDeckView.getStackAlgorithm().mMaxScrollP),
-                            0, DVConstants.Values.DView.TaskStackMinOverscrollRange +
+                            0, TaskStackMinOverscrollRange +
                                     overscrollRange);
                     // Invalidate to kick off computeScroll
                     mDeckView.invalidate();

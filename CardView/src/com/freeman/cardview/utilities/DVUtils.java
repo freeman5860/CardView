@@ -16,9 +16,6 @@ import android.view.View;
 import com.freeman.cardview.helpers.BusinessCardViewConfig;
 import com.freeman.cardview.helpers.ViewHelper;
 
-/**
- * Created by Vikram on 02/04/2015.
- */
 public class DVUtils {
     // Reflection methods for altering shadows
     private static Method sPropertyMethod;

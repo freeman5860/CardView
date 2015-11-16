@@ -10,10 +10,6 @@ import android.widget.OverScroller;
 import com.freeman.cardview.helpers.BusinessCardViewConfig;
 import com.freeman.cardview.utilities.DVUtils;
 
-/**
- * Created by Vikram on 02/04/2015.
- */
-/* The scrolling logic for a TaskStackView */
 public class BusinessCardViewScroller {
 	public interface DeckViewScrollerCallbacks {
 		public void onScrollChanged(float p);

@@ -9,9 +9,6 @@ import com.freeman.cardview.helpers.BusinessCardChildViewTransform;
 import com.freeman.cardview.helpers.BusinessCardViewConfig;
 import com.freeman.cardview.utilities.DVUtils;
 
-/**
- * Created by Vikram on 02/04/2015.
- */
 /* The layout logic for a TaskStackView.
  *
  * We are using a curve that defines the curve of the tasks as that go back in the recents list.

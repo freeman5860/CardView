@@ -1,8 +1,5 @@
 package com.freeman.cardview.helpers;
 
-/**
- * Created by Vikram on 01/04/2015.
- */
 
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -20,12 +17,6 @@ import android.util.Log;
 
 import com.freeman.cardview.R;
 
-/**
- * A rounded rectangle drawable which also includes a shadow around. This is mostly copied from
- * frameworks/support/v7/cardview/eclair-mr1/android/support/v7/widget/
- * RoundRectDrawableWithShadow.java revision c42ba8c000d1e6ce85e152dfc17089a0a69e739f with a few
- * modifications to suit our needs in SystemUI.
- */
 public class FakeShadowDrawable extends Drawable {
     // used to calculate content padding
     final static double COS_45 = Math.cos(Math.toRadians(45));
@@ -69,8 +60,7 @@ public class FakeShadowDrawable extends Drawable {
      */
     private boolean mPrintedShadowClipWarning = false;
 
-    @SuppressWarnings("deprecation")
-	public FakeShadowDrawable(Resources resources, BusinessCardViewConfig config) {
+    public FakeShadowDrawable(Resources resources, BusinessCardViewConfig config) {
         mShadowStartColor = resources.getColor(R.color.fake_shadow_start_color);
         mShadowEndColor = resources.getColor(R.color.fake_shadow_end_color);
         mInsetShadow = resources.getDimension(R.dimen.fake_shadow_inset);

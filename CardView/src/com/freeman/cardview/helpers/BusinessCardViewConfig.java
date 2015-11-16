@@ -15,13 +15,14 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 
 import com.freeman.cardview.R;
-import com.freeman.cardview.utilities.DVConstants;
 import com.freeman.cardview.utilities.DVUtils;
 
 /**
  * Configuration helper
  */
 public class BusinessCardViewConfig {
+	public static String Key_DebugModeEnabled = "debugModeEnabled";
+	
     static BusinessCardViewConfig sInstance;
     static int sPrevConfigurationHashCode;
 
@@ -199,14 +200,13 @@ public class BusinessCardViewConfig {
     /**
      * Updates the state, given the specified context
      */
-    @SuppressWarnings("deprecation")
 	void update(Context context) {
         SharedPreferences settings = context.getSharedPreferences(context.getPackageName(), 0);
         Resources res = context.getResources();
         DisplayMetrics dm = res.getDisplayMetrics();
 
         // Debug mode
-        debugModeEnabled = settings.getBoolean(DVConstants.Values.App.Key_DebugModeEnabled, false);
+        debugModeEnabled = settings.getBoolean(Key_DebugModeEnabled, false);
 
         // Layout
         isLandscape = res.getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;

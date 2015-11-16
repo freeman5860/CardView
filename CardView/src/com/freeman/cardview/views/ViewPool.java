@@ -7,9 +7,6 @@ import android.os.Build;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-/**
- * Created by Vikram on 01/04/2015.
- */
 /* A view pool to manage more views than we can visibly handle */
 public class ViewPool<V, T> {
 

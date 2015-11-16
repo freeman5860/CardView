@@ -8,10 +8,6 @@ import android.view.animation.Interpolator;
 
 import com.freeman.cardview.utilities.DVUtils;
 
-/**
- * Created by Vikram on 02/04/2015.
- */
-/* The transform state for a task view */
 public class BusinessCardChildViewTransform {
 	public int startDelay = 0;
 	public int translationY = 0;

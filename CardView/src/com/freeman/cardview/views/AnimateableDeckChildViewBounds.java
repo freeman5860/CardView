@@ -7,10 +7,6 @@ import android.view.ViewOutlineProvider;
 
 import com.freeman.cardview.helpers.BusinessCardViewConfig;
 
-/**
- * Created by Vikram on 02/04/2015.
- */
-/* An outline provider that has a clip and outline that can be animated. */
 public class AnimateableDeckChildViewBounds extends ViewOutlineProvider {
 
     BusinessCardViewConfig mConfig;

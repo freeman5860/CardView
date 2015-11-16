@@ -22,18 +22,14 @@ import android.widget.FrameLayout;
 import com.freeman.cardview.R;
 import com.freeman.cardview.helpers.BusinessCardChildViewTransform;
 import com.freeman.cardview.helpers.BusinessCardViewConfig;
-import com.freeman.cardview.utilities.DVConstants;
 import com.freeman.cardview.utilities.DVUtils;
 import com.freeman.cardview.utilities.DozeTrigger;
 import com.freeman.cardview.utilities.ReferenceCountedTrigger;
 
-/**
- * Created by Vikram on 02/04/2015.
- */
-/* The visual representation of a task stack view */
 public class BusinessCardView<T> extends FrameLayout implements /*TaskStack.TaskStackCallbacks,*/
         BusinessCardChildView.DeckChildViewCallbacks<T>, BusinessCardViewScroller.DeckViewScrollerCallbacks,
         ViewPool.ViewPoolConsumer<BusinessCardChildView<T>, T> {
+	public static final boolean EnableTaskStackClipping = true;
 
     BusinessCardViewConfig mConfig;
 
@@ -331,7 +327,7 @@ public class BusinessCardView<T> extends FrameLayout implements /*TaskStack.Task
      */
     void clipTaskViews() {
         // Update the clip on each task child
-        if (DVConstants.DebugFlags.App.EnableTaskStackClipping) {
+        if (EnableTaskStackClipping) {
             int childCount = getChildCount();
             for (int i = 0; i < childCount - 1; i++) {
                 BusinessCardChildView<?> tv = (BusinessCardChildView<?>) getChildAt(i);

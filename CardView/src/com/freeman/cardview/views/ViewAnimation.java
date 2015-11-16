@@ -6,9 +6,6 @@ import android.graphics.Rect;
 import com.freeman.cardview.helpers.BusinessCardChildViewTransform;
 import com.freeman.cardview.utilities.ReferenceCountedTrigger;
 
-/**
- * Created by Vikram on 01/04/2015.
- */
 /* Common code related to view animations */
 public class ViewAnimation {
 
