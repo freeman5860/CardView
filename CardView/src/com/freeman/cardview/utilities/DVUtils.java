@@ -14,6 +14,7 @@ import android.os.Build;
 import android.view.View;
 
 import com.freeman.cardview.helpers.BusinessCardViewConfig;
+import com.freeman.cardview.helpers.ViewHelper;
 
 /**
  * Created by Vikram on 02/04/2015.
@@ -91,10 +92,12 @@ public class DVUtils {
                 pt[1] -= v0.getScrollY();
             }
 
-            v0.getMatrix().mapPoints(pt);
+            //v0.getMatrix().mapPoints(pt);
+            ViewHelper.getMatrix(v0).mapPoints(pt);
             pt[0] += v0.getLeft();
             pt[1] += v0.getTop();
-            scale *= v0.getScaleX();
+            //scale *= v0.getScaleX();
+            scale *= ViewHelper.getScaleX(v0);
         }
 
         coord[0] = pt[0];
@@ -131,9 +134,11 @@ public class DVUtils {
             if (next != null) {
                 pt[0] -= next.getLeft();
                 pt[1] -= next.getTop();
-                next.getMatrix().invert(tmpInverseMatrix);
+                //next.getMatrix().invert(tmpInverseMatrix);
+                ViewHelper.getMatrix(next).invert(tmpInverseMatrix);
                 tmpInverseMatrix.mapPoints(pt);
-                scale *= next.getScaleX();
+                //scale *= next.getScaleX();
+                scale *= ViewHelper.getScaleX(next);
             }
         }
 

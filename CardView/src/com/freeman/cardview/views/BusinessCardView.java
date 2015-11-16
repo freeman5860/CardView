@@ -63,15 +63,6 @@ public class BusinessCardView<T> extends FrameLayout implements /*TaskStack.Task
     HashMap<T, BusinessCardChildView<T>> mTmpTaskViewMap = new HashMap<T, BusinessCardChildView<T>>();
     LayoutInflater mInflater;
 
-    // A convenience update listener to request updating clipping of tasks
-    ValueAnimator.AnimatorUpdateListener mRequestUpdateClippingListener =
-            new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    requestUpdateStackViewsClip();
-                }
-            };
-
     public BusinessCardView(Context context) {
         this(context, null);
     }
@@ -308,9 +299,22 @@ public class BusinessCardView<T> extends FrameLayout implements /*TaskStack.Task
                     }
                 }
 
-                // Animate the task into place
-                tv.updateViewPropertiesToTaskTransform(mCurrentTaskTransforms.get(i),
-                        mStackViewsAnimationDuration, mRequestUpdateClippingListener);
+                if(DVUtils.isAboveSDKVersion(11)){
+	                // A convenience update listener to request updating clipping of tasks
+	                ValueAnimator.AnimatorUpdateListener mRequestUpdateClippingListener =
+	                        new ValueAnimator.AnimatorUpdateListener() {
+	                            @Override
+	                            public void onAnimationUpdate(ValueAnimator animation) {
+	                                requestUpdateStackViewsClip();
+	                            }
+	                        };
+	                // Animate the task into place
+	                tv.updateViewPropertiesToTaskTransform(mCurrentTaskTransforms.get(i),
+	                        mStackViewsAnimationDuration, mRequestUpdateClippingListener);
+                }else{
+                	tv.updateViewPropertiesToTaskTransform(mCurrentTaskTransforms.get(i),
+	                        mStackViewsAnimationDuration, null);
+                }
             }
 
             // Reset the request-synchronize params
@@ -773,7 +777,16 @@ public class BusinessCardView<T> extends FrameLayout implements /*TaskStack.Task
                 ctx.currentTaskRect = mLayoutAlgorithm.mTaskRect;
                 // TODO: this needs to go
                 ctx.currentTaskOccludesLaunchTarget = false;
-                ctx.updateListener = mRequestUpdateClippingListener;
+                if(DVUtils.isAboveSDKVersion(11)){
+	                ValueAnimator.AnimatorUpdateListener mRequestUpdateClippingListener =
+	                        new ValueAnimator.AnimatorUpdateListener() {
+	                            @Override
+	                            public void onAnimationUpdate(ValueAnimator animation) {
+	                                requestUpdateStackViewsClip();
+	                            }
+	                        };                     
+	                ctx.updateListener = mRequestUpdateClippingListener;
+                }
                 mLayoutAlgorithm.getStackTransform(key, mStackScroller.getStackScroll(),
                         ctx.currentTaskTransform, null);
                 tv.startEnterRecentsAnimation(ctx);

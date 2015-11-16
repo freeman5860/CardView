@@ -225,6 +225,15 @@ public final class AnimatorProxy extends Animation {
             setTranslationY(y - view.getTop());
         }
     }
+    
+    public Matrix getMatrix(){
+    	View view = mView.get();
+    	if(view != null){
+    		prepareForUpdate();
+    	}
+    	Matrix m = mTempMatrix;
+    	return m;
+    }
 
     private void prepareForUpdate() {
         View view = mView.get();

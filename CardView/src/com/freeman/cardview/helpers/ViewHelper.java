@@ -2,6 +2,7 @@ package com.freeman.cardview.helpers;
 
 import static com.freeman.cardview.helpers.AnimatorProxy.NEEDS_PROXY;
 import static com.freeman.cardview.helpers.AnimatorProxy.wrap;
+import android.graphics.Matrix;
 import android.view.View;
 
 public final class ViewHelper {
@@ -174,6 +175,14 @@ public final class ViewHelper {
             Honeycomb.setY(view, y);
         }
     }
+    
+    public static Matrix getMatrix(View view){
+    	if(NEEDS_PROXY){
+    		return wrap(view).getMatrix();
+    	}else{
+    		return Honeycomb.getMatrix(view);
+    	}
+    }
 
     private static final class Honeycomb {
         static float getAlpha(View view) {
@@ -286,6 +295,10 @@ public final class ViewHelper {
 
         static void setY(View view, float y) {
             view.setY(y);
+        }
+        
+        static Matrix getMatrix(View view){
+        	return view.getMatrix();
         }
     }
 }
