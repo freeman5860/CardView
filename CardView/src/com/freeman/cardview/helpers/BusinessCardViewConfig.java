@@ -103,15 +103,6 @@ public class BusinessCardViewConfig {
     public float taskViewThumbnailAlpha;
 
     /**
-     * Task bar colors
-     */
-    public int taskBarViewDefaultBackgroundColor;
-    public int taskBarViewLightTextColor;
-    public int taskBarViewDarkTextColor;
-    public int taskBarViewHighlightColor;
-    public float taskBarViewAffiliationColorMinAlpha;
-
-    /**
      * Task bar size & animations
      */
     public int taskBarHeight;
@@ -267,19 +258,6 @@ public class BusinessCardViewConfig {
         TypedValue thumbnailAlphaValue = new TypedValue();
         res.getValue(R.dimen.task_view_thumbnail_alpha, thumbnailAlphaValue, true);
         taskViewThumbnailAlpha = thumbnailAlphaValue.getFloat();
-
-        // Task bar colors
-        taskBarViewDefaultBackgroundColor =
-                res.getColor(R.color.task_bar_default_background_color);
-        taskBarViewLightTextColor =
-                res.getColor(R.color.task_bar_light_text_color);
-        taskBarViewDarkTextColor =
-                res.getColor(R.color.task_bar_dark_text_color);
-        taskBarViewHighlightColor =
-                res.getColor(R.color.task_bar_highlight_color);
-        TypedValue affMinAlphaPctValue = new TypedValue();
-        res.getValue(R.dimen.task_affiliation_color_min_alpha_percentage, affMinAlphaPctValue, true);
-        taskBarViewAffiliationColorMinAlpha = affMinAlphaPctValue.getFloat();
 
         // Task bar size & animations
         taskBarHeight = res.getDimensionPixelSize(R.dimen.deck_child_header_bar_height);
