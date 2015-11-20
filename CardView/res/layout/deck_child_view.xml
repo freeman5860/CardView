@@ -28,6 +28,12 @@
             	android:layout_height="match_parent" 
             	android:scaleType="fitStart"
             	android:contentDescription="@string/app_name"/>
+            
+            <TextView 
+                android:id="@+id/task_view_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"/>
               
     </FrameLayout>
 </com.freeman.cardview.views.BusinessCardChildView>

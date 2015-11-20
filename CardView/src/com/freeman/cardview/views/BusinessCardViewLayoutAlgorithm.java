@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.graphics.Rect;
+import android.util.Log;
 
 import com.freeman.cardview.helpers.BusinessCardChildViewTransform;
 import com.freeman.cardview.helpers.BusinessCardViewConfig;
@@ -37,17 +38,17 @@ public class BusinessCardViewLayoutAlgorithm<T> {
     BusinessCardViewConfig mConfig;
 
     // The various rects that define the stack view
-    public Rect mViewRect = new Rect();
-    Rect mStackVisibleRect = new Rect();
-    Rect mStackRect = new Rect();
-    Rect mTaskRect = new Rect();
+    public Rect mViewRect = new Rect(); //界面可见大小
+    Rect mStackVisibleRect = new Rect(); //同上
+    Rect mStackRect = new Rect(); // 整个列表的大小，减去padding，左右各15，上下各24
+    Rect mTaskRect = new Rect(); //正方形，屏幕的宽送去30
 
     // The min/max scroll progress
     float mMinScrollP;
     float mMaxScrollP;
     float mInitialScrollP;
-    int mWithinAffiliationOffset;
-    int mBetweenAffiliationOffset;
+    int mWithinAffiliationOffset; //taskBarHeight，56dp
+    int mBetweenAffiliationOffset;//卡片宽度的一半（4分之1的屏幕宽度）
     HashMap<T, Float> mTaskProgressMap = new HashMap<T, Float>();
 
     // Log function
@@ -149,8 +150,7 @@ public class BusinessCardViewLayoutAlgorithm<T> {
             mInitialScrollP = mMaxScrollP;
         } else {
             mInitialScrollP = pAtFrontMostCardTop - 0.825f;
-        }
-        mInitialScrollP = Math.min(mMaxScrollP, Math.max(0, mInitialScrollP));
+        }        mInitialScrollP = Math.min(mMaxScrollP, Math.max(0, mInitialScrollP));
     }
 
     /**

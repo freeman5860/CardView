@@ -14,6 +14,7 @@ import com.freeman.cardview.utilities.DVUtils;
 public class BusinessCardViewScroller {
 	public interface DeckViewScrollerCallbacks {
 		public void onScrollChanged(float p);
+		public float getScrollOffset(float p);
 	}
 
 	BusinessCardViewConfig mConfig;
@@ -60,7 +61,6 @@ public class BusinessCardViewScroller {
 	 * Sets the current stack scroll
 	 */
 	public void setStackScroll(float s) {
-		Log.e("hjy","setStackScroll " + s);
 		mStackScrollP = s;
 		if (mCb != null) {
 			mCb.onScrollChanged(mStackScrollP);
@@ -260,6 +260,10 @@ public class BusinessCardViewScroller {
 	}
 
 	public void scrollToStickPosition() {
-		
+		//animateScroll(getStackScroll(), getStackScroll() + offset, null);
+		if(mCb != null){
+			float offset = mCb.getScrollOffset(getStackScroll());
+			animateScroll(getStackScroll(), getStackScroll() + offset, null);
+		}
 	}
 }

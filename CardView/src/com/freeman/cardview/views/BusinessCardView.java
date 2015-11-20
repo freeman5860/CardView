@@ -1124,18 +1124,56 @@ public class BusinessCardView<T> extends FrameLayout implements /*TaskStack.Task
         }
     }
     
+    int preScrollY = -1;
+    
     /**
      * * TaskStackViewScroller.TaskStackViewScrollerCallbacks ***
      */
 
     @Override
     public void onScrollChanged(float p) {
-    	Log.e("hjy","onScrollChanged:" + p);
         mUIDozeTrigger.poke();
         requestSynchronizeStackViewsWithModel();
         if(DVUtils.isAboveSDKVersion(16)){
         	postInvalidateOnAnimation();
         }
+    }
+    
+    public float getScrollOffset(float p){
+    	ArrayList<T> data = mCallback.getData();
+        float stackScroll = p;
+        int[] curVisibleRange = new int[2];
+        ArrayList<BusinessCardChildViewTransform> curTransform = new ArrayList<BusinessCardChildViewTransform>();
+        boolean isValidVisibleRange = updateStackTransforms(curTransform,
+                data, stackScroll, curVisibleRange, false);
+
+        String strLog = "";
+        int bottomLine = mLayoutAlgorithm.mViewRect.bottom - mConfig.taskBarHeight;
+        Log.e("hjy","bottomLine:" + bottomLine);
+        int offsetAdjustment = Integer.MAX_VALUE;
+        for (int i = curVisibleRange[0]; isValidVisibleRange && i >= curVisibleRange[1]; i--) {
+            BusinessCardChildViewTransform transform = curTransform.get(i);
+            if(Math.abs(transform.translationY - bottomLine) < Math.abs(offsetAdjustment)){
+            	offsetAdjustment = transform.translationY - bottomLine;
+            }
+            
+            strLog += i + " : " + transform.translationY + " : " + (transform.translationY - bottomLine) + " | ";
+        }
+        
+        Log.e("hjy",strLog);
+        
+        float pBottom = mLayoutAlgorithm.screenYToCurveProgress(mLayoutAlgorithm.mViewRect.bottom);
+        float pAdjustBottom = mLayoutAlgorithm.screenYToCurveProgress(mLayoutAlgorithm.mViewRect.bottom + offsetAdjustment);
+        
+        if(curVisibleRange[0] == 2){
+        	return 0.0f;
+        }
+        
+        if(curVisibleRange[0] == data.size() -1 && Math.abs(offsetAdjustment) > mLayoutAlgorithm.mTaskRect.height() / 2){
+        	return 0.0f;
+        }
+        
+        return pAdjustBottom - pBottom;
     }
 
     public void notifyDataSetChangedOld() {

@@ -20,7 +20,9 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.freeman.carddemo.DemoData;
 import com.freeman.cardview.R;
 import com.freeman.cardview.helpers.BusinessCardChildViewTransform;
 import com.freeman.cardview.helpers.BusinessCardViewConfig;
@@ -70,6 +72,7 @@ public class BusinessCardChildView<T> extends FrameLayout implements
 
 	View mContent;
 	ImageView mThumbnailView;
+	TextView mTextView;
 	DeckChildViewCallbacks<T> mCb;
 
 	public static final Interpolator ALPHA_IN = new PathInterpolatorDonut(0.4f,
@@ -143,6 +146,7 @@ public class BusinessCardChildView<T> extends FrameLayout implements
 		// Bind the views
 		mContent = findViewById(R.id.task_view_content);
 		mThumbnailView = (ImageView) findViewById(R.id.task_view_thumbnail);
+		mTextView = (TextView) findViewById(R.id.task_view_text);
 	}
 
 	@Override
@@ -703,6 +707,11 @@ public class BusinessCardChildView<T> extends FrameLayout implements
 			// Rebind any listeners
 			// mHeaderView.mApplicationIcon.setOnClickListener(this);
 			// mHeaderView.mDismissButton.setOnClickListener(this);
+		}
+		
+		DemoData test = (DemoData) key;
+		if(mTextView != null){
+			mTextView.setText(test.strDesc);
 		}
 		mTaskDataLoaded = true;
 	}

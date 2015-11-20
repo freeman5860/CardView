@@ -89,7 +89,7 @@ public class BusinessCardChildViewTransform {
 //					}
 				}
 				if (hasScaleChangedFrom(v.getScaleX())) {
-					//anim.scaleX(scale).scaleY(scale);
+					anim.scaleX(scale).scaleY(scale);
 					requiresLayers = true;
 				}
 				if (hasAlphaChangedFrom(v.getAlpha())) {
@@ -121,8 +121,8 @@ public class BusinessCardChildViewTransform {
 //					}
 				}
 				if (hasScaleChangedFrom(v.getScaleX())) {
-					//v.setScaleX(scale);
-					//v.setScaleY(scale);
+					v.setScaleX(scale);
+					v.setScaleY(scale);
 				}
 				if (hasAlphaChangedFrom(v.getAlpha())) {
 					v.setAlpha(alpha);
@@ -139,8 +139,8 @@ public class BusinessCardChildViewTransform {
 			ViewHelper.setTranslationY(v, translationY);
 		}
 		if (hasScaleChangedFrom(ViewHelper.getScaleX(v))) {
-			//ViewHelper.setScaleX(v, scale);
-			//ViewHelper.setScaleY(v, scale);
+			ViewHelper.setScaleX(v, scale);
+			ViewHelper.setScaleY(v, scale);
 		}
 		if (hasAlphaChangedFrom(ViewHelper.getAlpha(v))) {
 			ViewHelper.setAlpha(v, alpha);
