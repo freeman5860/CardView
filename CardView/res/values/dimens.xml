@@ -36,7 +36,7 @@
     <item name="task_affiliation_color_min_alpha_percentage" format="float" type="dimen">0.6</item>
 
     <!-- The height of a task view bar. -->
-    <dimen name="deck_child_header_bar_height">56dp</dimen>
+    <dimen name="deck_child_header_bar_height">80dp</dimen>
 
     <!-- The alpha to apply to a task thumbnail. -->
     <item name="task_view_thumbnail_alpha" format="float" type="dimen">0.9</item>

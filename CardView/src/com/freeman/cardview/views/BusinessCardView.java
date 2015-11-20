@@ -58,6 +58,23 @@ public class BusinessCardView<T> extends FrameLayout implements /*TaskStack.Task
     BusinessCardChildViewTransform mTmpTransform = new BusinessCardChildViewTransform();
     HashMap<T, BusinessCardChildView<T>> mTmpTaskViewMap = new HashMap<T, BusinessCardChildView<T>>();
     LayoutInflater mInflater;
+    
+    private float mPreScroll;
+    private static final int DELAY_MILLIS = 100;
+    private Runnable mScrollChecker = new Runnable() {
+		
+		@Override
+		public void run() {
+			float curScroll = mStackScroller.getStackScroll();
+            if (Float.compare(curScroll, mPreScroll) == 0) {
+            	mStackScroller.scrollToStickPosition();
+            } else {
+            	mPreScroll = mStackScroller.getStackScroll();  
+            	removeCallbacks(mScrollChecker);
+            	postDelayed(mScrollChecker, DELAY_MILLIS);
+            }
+		}
+	};
 
     public BusinessCardView(Context context) {
         this(context, null);
@@ -1131,7 +1148,7 @@ public class BusinessCardView<T> extends FrameLayout implements /*TaskStack.Task
      */
 
     @Override
-    public void onScrollChanged(float p) {
+    public void onScrollChanged(float p) {    	
         mUIDozeTrigger.poke();
         requestSynchronizeStackViewsWithModel();
         if(DVUtils.isAboveSDKVersion(16)){
@@ -1149,7 +1166,7 @@ public class BusinessCardView<T> extends FrameLayout implements /*TaskStack.Task
 
         String strLog = "";
         int bottomLine = mLayoutAlgorithm.mViewRect.bottom - mConfig.taskBarHeight;
-        Log.e("hjy","bottomLine:" + bottomLine);
+        //Log.e("hjy","bottomLine:" + bottomLine);
         int offsetAdjustment = Integer.MAX_VALUE;
         for (int i = curVisibleRange[0]; isValidVisibleRange && i >= curVisibleRange[1]; i--) {
             BusinessCardChildViewTransform transform = curTransform.get(i);
@@ -1160,10 +1177,15 @@ public class BusinessCardView<T> extends FrameLayout implements /*TaskStack.Task
             strLog += i + " : " + transform.translationY + " : " + (transform.translationY - bottomLine) + " | ";
         }
         
-        Log.e("hjy",strLog);
+        //Log.e("hjy",strLog);
         
         float pBottom = mLayoutAlgorithm.screenYToCurveProgress(mLayoutAlgorithm.mViewRect.bottom);
         float pAdjustBottom = mLayoutAlgorithm.screenYToCurveProgress(mLayoutAlgorithm.mViewRect.bottom + offsetAdjustment);
+        
+        if(offsetAdjustment > 0){
+        	pBottom = mLayoutAlgorithm.screenYToCurveProgress(mLayoutAlgorithm.mViewRect.bottom - offsetAdjustment);
+        	pAdjustBottom = mLayoutAlgorithm.screenYToCurveProgress(mLayoutAlgorithm.mViewRect.bottom);
+        }
         
         if(curVisibleRange[0] == 2){
         	return 0.0f;
@@ -1215,6 +1237,11 @@ public class BusinessCardView<T> extends FrameLayout implements /*TaskStack.Task
         // If there are no remaining tasks
         if (mCallback.getData().size() == 0)
             mCallback.onNoViewsToDeck();
+    }
+    
+    public void startCheckScroll(){
+    	removeCallbacks(mScrollChecker);
+    	postDelayed(mScrollChecker, DELAY_MILLIS);
     }
 
     Callback<T> mCallback;

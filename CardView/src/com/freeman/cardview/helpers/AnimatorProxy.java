@@ -11,10 +11,7 @@ import android.view.animation.Transformation;
 import java.lang.ref.WeakReference;
 import java.util.WeakHashMap;
 
-/**
- * 兼容类，解决View类在3.0版本以下不兼容的方法
- *
- */
+
 public final class AnimatorProxy extends Animation {
     
     public static final boolean NEEDS_PROXY = Integer.valueOf(Build.VERSION.SDK_INT).intValue() < Build.VERSION_CODES.HONEYCOMB;

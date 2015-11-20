@@ -230,9 +230,6 @@ public class BusinessCardViewScroller {
 	boolean computeScroll() {
 		if (mScroller.computeScrollOffset()) {
 			float scroll = scrollRangeToProgress(mScroller.getCurrY());
-			if (Math.abs(scroll - getStackScroll()) < 0.001f) {
-				scrollToStickPosition();
-			}
 			setStackScrollRaw(scroll);
 			if (mCb != null) {
 				mCb.onScrollChanged(scroll);
@@ -260,10 +257,16 @@ public class BusinessCardViewScroller {
 	}
 
 	public void scrollToStickPosition() {
-		//animateScroll(getStackScroll(), getStackScroll() + offset, null);
 		if(mCb != null){
 			float offset = mCb.getScrollOffset(getStackScroll());
-			animateScroll(getStackScroll(), getStackScroll() + offset, null);
+			Log.e("hjy","scrollToStickPosition" + offset);
+			animateScroll(getStackScroll(), getStackScroll() + offset, new Runnable() {
+				
+				@Override
+				public void run() {
+					//scrollToStickPosition();
+				}
+			});
 		}
 	}
 }
