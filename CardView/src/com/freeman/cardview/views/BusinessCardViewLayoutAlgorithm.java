@@ -49,7 +49,6 @@ public class BusinessCardViewLayoutAlgorithm<T> {
     int mWithinAffiliationOffset;
     int mBetweenAffiliationOffset;
     HashMap<T, Float> mTaskProgressMap = new HashMap<T, Float>();
-    ArrayList<Float> mProgressList = new ArrayList<Float>();
 
     // Log function
     static final float XScale = 1.75f;  // The large the XScale, the longer the flat area of the curve
@@ -99,7 +98,6 @@ public class BusinessCardViewLayoutAlgorithm<T> {
                              boolean launchedFromHome) {
         // Clear the progress map
         mTaskProgressMap.clear();
-        mProgressList.clear();
 
         // Return early if we have no tasks
         if (data.isEmpty()) {
@@ -125,8 +123,6 @@ public class BusinessCardViewLayoutAlgorithm<T> {
                 screenYToCurveProgress(mStackVisibleRect.bottom - (mStackVisibleRect.bottom -
                         mStackRect.bottom));
         
-        ArrayList<Float> tempList = new ArrayList<Float>();
-
         // Update the task offsets
         float pAtBackMostCardTop = 0.5f;
         float pAtFrontMostCardTop = pAtBackMostCardTop;
@@ -135,7 +131,6 @@ public class BusinessCardViewLayoutAlgorithm<T> {
             //Task task = tasks.get(i);
             //mTaskProgressMap.put(task.key, pAtFrontMostCardTop);
             mTaskProgressMap.put(data.get(i), pAtFrontMostCardTop);
-            tempList.add(pAtFrontMostCardTop);
 
             if (i < (taskCount - 1)) {
                 // Increment the peek height
@@ -156,16 +151,6 @@ public class BusinessCardViewLayoutAlgorithm<T> {
             mInitialScrollP = pAtFrontMostCardTop - 0.825f;
         }
         mInitialScrollP = Math.min(mMaxScrollP, Math.max(0, mInitialScrollP));
-        
-        float startOffset = screenYToCurveProgress(mStackVisibleRect.bottom) - screenYToCurveProgress(mStackVisibleRect.bottom -
-                mWithinAffiliationOffset);
-        startOffset *= 0.8f;
-        if(taskCount > 3){
-        	while(startOffset < mMaxScrollP){
-        		mProgressList.add(startOffset);
-        		startOffset += pBetweenAffiliateOffset;
-        	}
-        }
     }
 
     /**
@@ -418,24 +403,4 @@ public class BusinessCardViewLayoutAlgorithm<T> {
         }
         return px[xFloorIndex] + pFraction;
     }
-    
-    public float getTargetScrollFor(float curScroll){
-    	for(int i = 0; i< mProgressList.size() - 1; i++){
-    		if(mProgressList.get(i) > curScroll){
-    			
-    			float dist1 = Math.abs(mProgressList.get(i + 1) - curScroll);
-    			float dist2 = Math.abs(mProgressList.get(i) - curScroll);
-    			if(dist1 < dist2){
-    				return mProgressList.get(i + 1);
-    			}else{
-    				return mProgressList.get(i);
-    			}
-    		}
-    	}
-    	return curScroll < 0.08f ? 0.08f : curScroll;
-    }
-
-	public boolean needStickScroll(float curScroll) {
-		return curScroll < 0f ? false : true;
-	}
 }

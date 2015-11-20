@@ -260,15 +260,6 @@ public class BusinessCardViewScroller {
 	}
 
 	public void scrollToStickPosition() {
-		float curScroll = getStackScroll();
-
-		if (!mLayoutAlgorithm.needStickScroll(curScroll)) {
-			return;
-		}
-
-		float newScroll = mLayoutAlgorithm.getTargetScrollFor(curScroll);
-		if (Float.compare(newScroll, curScroll) != 0) {
-			animateScroll(curScroll, newScroll, null);
-		}
+		
 	}
 }
