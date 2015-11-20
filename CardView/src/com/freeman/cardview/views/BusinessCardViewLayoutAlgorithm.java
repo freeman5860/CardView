@@ -116,7 +116,7 @@ public class BusinessCardViewLayoutAlgorithm<T> {
         int scaleYOffset = (int) (((1f - scale) * taskHeight) / 2);
         pWithinAffiliateTop = screenYToCurveProgress(mStackVisibleRect.bottom -
                 mWithinAffiliationOffset + scaleYOffset);
-        float pWithinAffiliateOffset = pAtBottomOfStackRect - pWithinAffiliateTop - screenYToCurveProgress(1) * 0.5f;
+        float pWithinAffiliateOffset = pAtBottomOfStackRect - pWithinAffiliateTop;
         float pBetweenAffiliateOffset = pAtBottomOfStackRect -
                 screenYToCurveProgress(mStackVisibleRect.bottom - mBetweenAffiliationOffset);
         float pTaskHeightOffset = pAtBottomOfStackRect -
@@ -157,7 +157,9 @@ public class BusinessCardViewLayoutAlgorithm<T> {
         }
         mInitialScrollP = Math.min(mMaxScrollP, Math.max(0, mInitialScrollP));
         
-        float startOffset = pWithinAffiliateOffset;
+        float startOffset = screenYToCurveProgress(mStackVisibleRect.bottom) - screenYToCurveProgress(mStackVisibleRect.bottom -
+                mWithinAffiliationOffset);
+        startOffset *= 0.8f;
         if(taskCount > 3){
         	while(startOffset < mMaxScrollP){
         		mProgressList.add(startOffset);

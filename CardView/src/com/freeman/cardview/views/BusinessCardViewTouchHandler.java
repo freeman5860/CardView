@@ -3,6 +3,7 @@ package com.freeman.cardview.views;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 import android.view.InputDevice;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
@@ -53,6 +54,10 @@ public class BusinessCardViewTouchHandler {
         mDeckView = dv;
         mScroller = scroller;
         mConfig = config;
+        
+        Log.e("hjy",
+        		"mMinimumVelocity: " + mMinimumVelocity + " mMaximumVelocity:" + mMaximumVelocity 
+        		+ " mScrollTouchSlop:" + mScrollTouchSlop + " mPagingTouchSlop:" + mPagingTouchSlop);
     }
 
     /**

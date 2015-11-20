@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.util.Log;
 import android.widget.OverScroller;
 
 import com.freeman.cardview.helpers.BusinessCardViewConfig;
@@ -59,6 +60,7 @@ public class BusinessCardViewScroller {
 	 * Sets the current stack scroll
 	 */
 	public void setStackScroll(float s) {
+		Log.e("hjy","setStackScroll " + s);
 		mStackScrollP = s;
 		if (mCb != null) {
 			mCb.onScrollChanged(mStackScrollP);

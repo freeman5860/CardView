@@ -66,7 +66,7 @@ public class BusinessCardChildView<T> extends FrameLayout implements
 	boolean mIsFocused;
 	boolean mFocusAnimationsEnabled;
 	boolean mClipViewInStack;
-	AnimateableDeckChildViewBounds mViewBounds;
+//	AnimateableDeckChildViewBounds mViewBounds;
 
 	View mContent;
 	ImageView mThumbnailView;
@@ -101,9 +101,9 @@ public class BusinessCardChildView<T> extends FrameLayout implements
 			}
 		}
 		if (DVUtils.isAboveLollipop()) {
-			mViewBounds = new AnimateableDeckChildViewBounds(this,
-					mConfig.taskViewRoundedCornerRadiusPx);
-			setOutlineProvider(mViewBounds);
+//			mViewBounds = new AnimateableDeckChildViewBounds(this,
+//					mConfig.taskViewRoundedCornerRadiusPx);
+//			setOutlineProvider(mViewBounds);
 		}
 	}
 
@@ -134,9 +134,9 @@ public class BusinessCardChildView<T> extends FrameLayout implements
 	/**
 	 * Returns the view bounds.
 	 */
-	AnimateableDeckChildViewBounds getViewBounds() {
-		return mViewBounds;
-	}
+//	AnimateableDeckChildViewBounds getViewBounds() {
+//		return mViewBounds;
+//	}
 
 	@Override
 	protected void onFinishInflate() {
@@ -164,7 +164,7 @@ public class BusinessCardChildView<T> extends FrameLayout implements
 		setMeasuredDimension(width, height);
 
 		if (DVUtils.isAboveLollipop()) {
-			invalidateOutline();
+//			invalidateOutline();
 		}
 	}
 
@@ -265,7 +265,7 @@ public class BusinessCardChildView<T> extends FrameLayout implements
 				// Move the task view off screen (below) so we can animate it in
 				setTranslationY(offscreenY);
 				if (DVUtils.isAboveLollipop()) {
-					setTranslationZ(0);
+//					setTranslationZ(0);
 				}
 				setScaleX(1f);
 				setScaleY(1f);
@@ -321,12 +321,12 @@ public class BusinessCardChildView<T> extends FrameLayout implements
 			setScaleX(transform.scale);
 			setScaleY(transform.scale);
 			if (!mConfig.fakeShadows) {
-				animate().translationZ(transform.translationZ);
+//				animate().translationZ(transform.translationZ);
 			}
 			animate()
 					.translationY(transform.translationY)
 					.setStartDelay(delay)
-					.setUpdateListener(ctx.updateListener)
+//					.setUpdateListener(ctx.updateListener)
 					.setInterpolator(mConfig.quintOutInterpolator)
 					.setDuration(
 							mConfig.taskViewEnterFromHomeDuration + frontIndex
@@ -358,7 +358,7 @@ public class BusinessCardChildView<T> extends FrameLayout implements
 	 */
 	void startExitToHomeAnimation(ViewAnimation.TaskViewExitContext ctx) {
 		animate().translationY(ctx.offscreenTranslationY).setStartDelay(0)
-				.setUpdateListener(null)
+//				.setUpdateListener(null)
 				.setInterpolator(mConfig.fastOutLinearInInterpolator)
 				.setDuration(mConfig.taskViewExitToHomeDuration)
 				.withEndAction(ctx.postAnimationTrigger.decrementAsRunnable())
@@ -396,7 +396,8 @@ public class BusinessCardChildView<T> extends FrameLayout implements
 						.translationY(
 								getTranslationY()
 										+ mConfig.taskViewAffiliateGroupEnterOffsetPx)
-						.setStartDelay(0).setUpdateListener(null)
+						.setStartDelay(0)
+//						.setUpdateListener(null)
 						.setInterpolator(mConfig.fastOutLinearInInterpolator)
 						.setDuration(mConfig.taskViewExitToAppDuration).start();
 			}
@@ -411,7 +412,8 @@ public class BusinessCardChildView<T> extends FrameLayout implements
 		setClipViewInStack(false);
 
 		animate().translationX(mConfig.taskViewRemoveAnimTranslationXPx)
-				.alpha(0f).setStartDelay(0).setUpdateListener(null)
+				.alpha(0f).setStartDelay(0)
+//				.setUpdateListener(null)
 				.setInterpolator(mConfig.fastOutSlowInInterpolator)
 				.setDuration(mConfig.taskViewRemoveAnimDuration)
 				.withEndAction(new Runnable() {
@@ -503,7 +505,7 @@ public class BusinessCardChildView<T> extends FrameLayout implements
 		updateDimFromTaskProgress();
 
 		if (DVUtils.isAboveLollipop()) {
-			mViewBounds.setAlpha(p);
+//			mViewBounds.setAlpha(p);
 		}
 	}
 

@@ -83,13 +83,13 @@ public class BusinessCardChildViewTransform {
 					anim.translationY(translationY);
 				}
 				if (DVUtils.isAboveLollipop()) {
-					if (allowShadows
-							&& hasTranslationZChangedFrom(v.getTranslationZ())) {
-						anim.translationZ(translationZ);
-					}
+//					if (allowShadows
+//							&& hasTranslationZChangedFrom(v.getTranslationZ())) {
+//						anim.translationZ(translationZ);
+//					}
 				}
 				if (hasScaleChangedFrom(v.getScaleX())) {
-					anim.scaleX(scale).scaleY(scale);
+					//anim.scaleX(scale).scaleY(scale);
 					requiresLayers = true;
 				}
 				if (hasAlphaChangedFrom(v.getAlpha())) {
@@ -101,11 +101,11 @@ public class BusinessCardChildViewTransform {
 					anim.withLayer();
 				}
 				if (DVUtils.isAboveSDKVersion(19)) {
-					if (updateCallback != null) {
-						anim.setUpdateListener(updateCallback);
-					} else {
-						anim.setUpdateListener(null);
-					}
+//					if (updateCallback != null) {
+//						anim.setUpdateListener(updateCallback);
+//					} else {
+//						anim.setUpdateListener(null);
+//					}
 				}
 				anim.setStartDelay(startDelay).setDuration(duration)
 						.setInterpolator(interp).start();
@@ -115,14 +115,14 @@ public class BusinessCardChildViewTransform {
 					v.setTranslationY(translationY);
 				}
 				if (DVUtils.isAboveLollipop()) {
-					if (allowShadows
-							&& hasTranslationZChangedFrom(v.getTranslationZ())) {
-						v.setTranslationZ(translationZ);
-					}
+//					if (allowShadows
+//							&& hasTranslationZChangedFrom(v.getTranslationZ())) {
+//						v.setTranslationZ(translationZ);
+//					}
 				}
 				if (hasScaleChangedFrom(v.getScaleX())) {
-					v.setScaleX(scale);
-					v.setScaleY(scale);
+					//v.setScaleX(scale);
+					//v.setScaleY(scale);
 				}
 				if (hasAlphaChangedFrom(v.getAlpha())) {
 					v.setAlpha(alpha);
@@ -139,8 +139,8 @@ public class BusinessCardChildViewTransform {
 			ViewHelper.setTranslationY(v, translationY);
 		}
 		if (hasScaleChangedFrom(ViewHelper.getScaleX(v))) {
-			ViewHelper.setScaleX(v, scale);
-			ViewHelper.setScaleY(v, scale);
+			//ViewHelper.setScaleX(v, scale);
+			//ViewHelper.setScaleY(v, scale);
 		}
 		if (hasAlphaChangedFrom(ViewHelper.getAlpha(v))) {
 			ViewHelper.setAlpha(v, alpha);
@@ -155,7 +155,7 @@ public class BusinessCardChildViewTransform {
 			v.setTranslationX(0f);
 			v.setTranslationY(0f);
 			if (DVUtils.isAboveLollipop()) {
-				v.setTranslationZ(0f);
+//				v.setTranslationZ(0f);
 			}
 			v.setScaleX(1f);
 			v.setScaleY(1f);

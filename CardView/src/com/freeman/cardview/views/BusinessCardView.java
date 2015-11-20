@@ -12,10 +12,10 @@ import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowInsets;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.FrameLayout;
 
@@ -361,7 +361,7 @@ public class BusinessCardView<T> extends FrameLayout implements /*TaskStack.Task
                 
                 // clip only for sdk 21
                 if(DVUtils.isAboveLollipop()){
-                	tv.getViewBounds().setClipBottom(clipBottom);
+//                	tv.getViewBounds().setClipBottom(clipBottom);
                 }
             }
             if (getChildCount() > 0) {
@@ -370,7 +370,7 @@ public class BusinessCardView<T> extends FrameLayout implements /*TaskStack.Task
                 
                 // clip only for sdk 21
                 if(DVUtils.isAboveLollipop()){
-                	tv.getViewBounds().setClipBottom(0);
+//                	tv.getViewBounds().setClipBottom(0);
                 }
             }
         }
@@ -800,18 +800,18 @@ public class BusinessCardView<T> extends FrameLayout implements /*TaskStack.Task
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT_WATCH) 
-    @Override
-    public WindowInsets onApplyWindowInsets(WindowInsets insets) {
-        // Update the configuration with the latest system insets and trigger a relayout
-        // mConfig.updateSystemInsets(insets.getSystemWindowInsets());
-        mConfig.updateSystemInsets(new Rect(insets.getSystemWindowInsetLeft(),
-                insets.getSystemWindowInsetTop(),
-                insets.getSystemWindowInsetRight(),
-                insets.getSystemWindowInsetBottom()));
-        requestLayout();
-        return insets.consumeSystemWindowInsets();
-    }
+//    @TargetApi(Build.VERSION_CODES.KITKAT_WATCH) 
+//    @Override
+//    public WindowInsets onApplyWindowInsets(WindowInsets insets) {
+//        // Update the configuration with the latest system insets and trigger a relayout
+//        // mConfig.updateSystemInsets(insets.getSystemWindowInsets());
+//        mConfig.updateSystemInsets(new Rect(insets.getSystemWindowInsetLeft(),
+//                insets.getSystemWindowInsetTop(),
+//                insets.getSystemWindowInsetRight(),
+//                insets.getSystemWindowInsetBottom()));
+//        requestLayout();
+//        return insets.consumeSystemWindowInsets();
+//    }
 
     void hideDeck(Context context, Runnable finishRunnable) {
         ReferenceCountedTrigger exitTrigger = new ReferenceCountedTrigger(context,
@@ -1130,6 +1130,7 @@ public class BusinessCardView<T> extends FrameLayout implements /*TaskStack.Task
 
     @Override
     public void onScrollChanged(float p) {
+    	Log.e("hjy","onScrollChanged:" + p);
         mUIDozeTrigger.poke();
         requestSynchronizeStackViewsWithModel();
         if(DVUtils.isAboveSDKVersion(16)){
